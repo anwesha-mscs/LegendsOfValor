@@ -2,18 +2,19 @@
 public class MapUnit implements Cloneable{
 
     // store the map type here
-    private char t;       //' ' is nothing 'X' is obstacle  'M' is the market  'P' is the hero party
+    private char type;       //' ' is nothing 'X' is obstacle  'M' is the market  'P' is the hero party
+    //'B' is bush  'C' is Cave 'K' is Koulou  "N" for monster nexus 'n' for hero nexus
 
     public MapUnit(char content){
-        t = content;
+        type = content;
     }
 
-    public char getT(){
-        return t;
+    public char getType(){
+        return type;
     }
 
-    public void setT(char t){
-        this.t = t;
+    public void setType(char type){
+        this.type = type;
     }
 
     // to accomplish the clone for the grid
@@ -30,7 +31,7 @@ public class MapUnit implements Cloneable{
     @Override
     public String toString() {
         return "MapUnit{" +
-                t +
+                type +
                 '}'+hashCode();
     }
 

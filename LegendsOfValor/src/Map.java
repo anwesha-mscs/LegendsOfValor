@@ -41,19 +41,59 @@ public class Map extends Grid {
     // Initialize the map of the whole game
     public MapUnit[][] init(){
 
-            int i = ran.nextInt(charNum);
 
-            int sha = i/size;
-            int der = i%size;
 
-                setxCord(sha);
-                setyCord(der);
+        int xyCor[] = getEmptyLocation();
+        setxCord(xyCor[0]);
+        setyCord(xyCor[1]);
 
-        setUpMap();
+//        setUpMap();
+        fillInaccessField();
 
-        grid[sha][der].setT(' ');
+        fillinNexus();
 
-                return grid;
+        generateSpecialTerrain('C');
+        generateSpecialTerrain('K');
+        generateSpecialTerrain('B');
+
+
+//        grid[sha][der].setT(' ');
+
+        return grid;
+    }
+
+    public MapUnit[][] generateSpecialTerrain(char te){
+        int amout= (int) (charNum -16-12);
+        amout= (int) (amout * 0.2);
+
+        for (int am = 0; am < amout; am++) {
+            int xys[] = getEmptyLocation();
+            grid[xys[0]][xys[1]].setType(te);
+        }
+
+
+
+        return grid;
+    }
+
+    public int[] getEmptyLocation(){
+
+        int xy[] =  new int[2];
+
+        do {int i = ran.nextInt(charNum);
+
+            xy[0] = i/size;
+            xy[1] = i%size;
+            System.out.println("random i:"+i);
+
+            System.out.println("Type:" + grid[xy[0]][xy[1]].getType());
+
+        }while (grid[xy[0]][xy[1]].getType()!=' ');
+
+
+
+
+        return xy;
     }
 
 
@@ -62,6 +102,33 @@ public class Map extends Grid {
 
         grid = cloneGrid(FINAL_GRID);
         return grid;
+    }
+
+    public MapUnit[][] fillInaccessField(){
+        fillInaccessColumn(2);
+        fillInaccessColumn(5);
+        return grid;
+
+    }
+    public MapUnit[][] fillInaccessColumn(int c){
+        for (int i = 0; i < 8; i++) {
+            grid[i][c].setType('X');
+
+        }
+        return grid;
+
+    }
+
+    public MapUnit[][] fillinNexus(){
+        for (int i = 0; i < 8; i++) {
+            if (i%3!=2) {
+                grid[0][i].setType('N');
+                grid[7][i].setType('n');
+            }
+
+        }
+        return grid;
+
     }
 
 
@@ -75,8 +142,8 @@ public class Map extends Grid {
             int j = ran.nextInt(size );
 
 
-            if (grid[i][j].getT() != 'M'){
-                grid[i][j].setT('M');
+            if (grid[i][j].getType() != 'M'){
+                grid[i][j].setType('M');
                 counter ++;
             }
 
@@ -87,8 +154,8 @@ public class Map extends Grid {
         while(counter< n){
             int i = ran.nextInt(size);
             int j = ran.nextInt(size);
-            if (grid[i][j].getT() != 'X' && counter < n){
-                grid[i][j].setT('X');
+            if (grid[i][j].getType() != 'X' && counter < n){
+                grid[i][j].setType('X');
 //                grid[i][j].setDis('X');
                 counter ++;
             }
@@ -101,11 +168,11 @@ public class Map extends Grid {
     // I believe this is a deep clone
     public MapUnit[][] cloneGrid(MapUnit[][] gr){
         MapUnit[][] iterGrid = new MapUnit[gr.length][gr[0].length];
-            for (int x = 0; x < gr.length; x++) {
-                for (int y = 0; y < gr[x].length; y++) {
-                    iterGrid[x][y] = (MapUnit) gr[x][y].clone();
-                }
+        for (int x = 0; x < gr.length; x++) {
+            for (int y = 0; y < gr[x].length; y++) {
+                iterGrid[x][y] = (MapUnit) gr[x][y].clone();
             }
+        }
         return iterGrid;
     }
 
@@ -159,7 +226,7 @@ public class Map extends Grid {
                 if(xCord == i && yCord ==j){
                     System.out.print(" P |");
                 }else {
-                    System.out.print(" " + this.FINAL_GRID[i][j].getT() + " |");
+                    System.out.print(" " + this.FINAL_GRID[i][j].getType() + " |");
                 }
             }
 

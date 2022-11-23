@@ -25,7 +25,7 @@ public class Game {
 
 	public Game() {
 		market = new Market();
-		map = new Map(7);
+		map = new Map(8);
 		heroList = new HeroList();
 		heroPP = new HeroParty();
 		combat = new Combat(heroPP);
@@ -97,22 +97,22 @@ public class Game {
 		// go upwards
 		if (direction.equals("W") || direction.equals("w")) {
 			//first to check whether the place is movable
-			if (map.getxCord() == 0  || map.grid[map.getxCord() - 1][map.getyCord()].getT() == 'X') {
+			if (map.getxCord() == 0  || map.grid[map.getxCord() - 1][map.getyCord()].getType() == 'X') {
 				System.out.println("The place you choose can not enter! Please try another place!");
 			} else {
 				// the case when step in a market
-					if (map.grid[map.getxCord() - 1][map.getyCord()].getT() == 'M') {
-					map.grid[map.getxCord()][map.getyCord()].setT(' ');
-					map.grid[map.getxCord() - 1][map.getyCord()].setT('T');
+					if (map.grid[map.getxCord() - 1][map.getyCord()].getType() == 'M') {
+					map.grid[map.getxCord()][map.getyCord()].setType(' ');
+					map.grid[map.getxCord() - 1][map.getyCord()].setType('T');
 						map.setxCord(map.getxCord() - 1);
 
 						for (Hero he: heroPP.getHeroParty()) {
 							market.enterMaket(he);
 						};
 				}//normally move here
-				else if (map.grid[map.getxCord() - 1][map.getyCord()].getT() == ' ') {
-					map.grid[map.getxCord()][map.getyCord()].setT(' ');
-					map.grid[map.getxCord() - 1][map.getyCord()].setT('T');
+				else if (map.grid[map.getxCord() - 1][map.getyCord()].getType() == ' ') {
+					map.grid[map.getxCord()][map.getyCord()].setType(' ');
+					map.grid[map.getxCord() - 1][map.getyCord()].setType('T');
 					map.setxCord(map.getxCord() - 1);
 
 					//call encounterMonster function to decide whether start a fight
@@ -126,21 +126,21 @@ public class Game {
 
 		// go leftwards
 		else if (direction.equals("A") || direction.equals("a")) {
-			if (map.getyCord() == 0 || map.grid[map.getxCord()][map.getyCord() - 1].getT() == 'X') {
+			if (map.getyCord() == 0 || map.grid[map.getxCord()][map.getyCord() - 1].getType() == 'X') {
 				System.out.println("The place you choose can not enter! Please try another place!");
 			} else {
-					if (map.grid[map.getxCord()][map.getyCord() - 1].getT() == 'M') {
-					map.grid[map.getxCord()][map.getyCord()].setT(' ');
-					map.grid[map.getxCord()][map.getyCord() - 1].setT('T');
+					if (map.grid[map.getxCord()][map.getyCord() - 1].getType() == 'M') {
+					map.grid[map.getxCord()][map.getyCord()].setType(' ');
+					map.grid[map.getxCord()][map.getyCord() - 1].setType('T');
 					map.setyCord(map.getyCord()-1);
 						for (Hero he: heroPP.getHeroParty()) {
 						market.enterMaket(he);
 				};
 
 					}
-				else if (map.grid[map.getxCord()][map.getyCord() - 1].getT() == ' ') {
-					map.grid[map.getxCord()][map.getyCord()].setT(' ');
-					map.grid[map.getxCord()][map.getyCord() - 1].setT('T');
+				else if (map.grid[map.getxCord()][map.getyCord() - 1].getType() == ' ') {
+					map.grid[map.getxCord()][map.getyCord()].setType(' ');
+					map.grid[map.getxCord()][map.getyCord() - 1].setType('T');
 					map.setyCord(map.getyCord() - 1);
 
 					if (encounterMonster()) {
@@ -153,12 +153,12 @@ public class Game {
 
 		// go downwards
 		else if (direction.equals("S") || direction.equals("s")) {
-			if (map.getxCord() == (map.getSize() - 1) || map.grid[map.getxCord() + 1][map.getyCord()].getT() == 'X') {
+			if (map.getxCord() == (map.getSize() - 1) || map.grid[map.getxCord() + 1][map.getyCord()].getType() == 'X') {
 				System.out.println("The place you choose can not enter! Please try another place!");
 			} else {
-					if (map.grid[map.getxCord() + 1][map.getyCord()].getT() == 'M') {
-					map.grid[map.getxCord()][map.getyCord()].setT(' ');
-					map.grid[map.getxCord() + 1][map.getyCord()].setT('T');
+					if (map.grid[map.getxCord() + 1][map.getyCord()].getType() == 'M') {
+					map.grid[map.getxCord()][map.getyCord()].setType(' ');
+					map.grid[map.getxCord() + 1][map.getyCord()].setType('T');
 					map.setxCord(map.getxCord()+1);
 						for (Hero he: heroPP.getHeroParty()) {
 						market.enterMaket(he);
@@ -166,9 +166,9 @@ public class Game {
 
 
 					}
-				else if (map.grid[map.getxCord() + 1][map.getyCord()].getT() == ' ') {
-					map.grid[map.getxCord()][map.getyCord()].setT(' ');
-					map.grid[map.getxCord() + 1][map.getyCord()].setT('T');
+				else if (map.grid[map.getxCord() + 1][map.getyCord()].getType() == ' ') {
+					map.grid[map.getxCord()][map.getyCord()].setType(' ');
+					map.grid[map.getxCord() + 1][map.getyCord()].setType('T');
 					map.setxCord(map.getxCord() + 1);
 
 					if (encounterMonster()) {
@@ -180,23 +180,23 @@ public class Game {
 
 		// go rightwards
 		else if (direction.equals("D") || direction.equals("d")) {
-			if (map.getyCord() == (map.getSize() - 1) || map.grid[map.getxCord()][map.getyCord() + 1].getT() == 'X') {
+			if (map.getyCord() == (map.getSize() - 1) || map.grid[map.getxCord()][map.getyCord() + 1].getType() == 'X') {
 				System.out.println("The place you choose can not enter! Please try another place!");
 			} else {
-				if (map.grid[map.getxCord()][map.getyCord() + 1].getT() == 'X') {
+				if (map.grid[map.getxCord()][map.getyCord() + 1].getType() == 'X') {
 					System.out.println("Inaccessible area! Please try another direction.");
 				}
-				else if (map.grid[map.getxCord()][map.getyCord() + 1].getT() == 'M') {
-					map.grid[map.getxCord()][map.getyCord()].setT(' ');
-					map.grid[map.getxCord()][map.getyCord() + 1].setT('T');
+				else if (map.grid[map.getxCord()][map.getyCord() + 1].getType() == 'M') {
+					map.grid[map.getxCord()][map.getyCord()].setType(' ');
+					map.grid[map.getxCord()][map.getyCord() + 1].setType('T');
 					map.setyCord(map.getyCord() + 1);
 					for (Hero he: heroPP.getHeroParty()) {
 						market.enterMaket(he);
 				};
 
-				}else if (map.grid[map.getxCord()][map.getyCord() + 1].getT() == ' ') {
-					map.grid[map.getxCord()][map.getyCord()].setT(' ');
-					map.grid[map.getxCord()][map.getyCord() + 1].setT('T');
+				}else if (map.grid[map.getxCord()][map.getyCord() + 1].getType() == ' ') {
+					map.grid[map.getxCord()][map.getyCord()].setType(' ');
+					map.grid[map.getxCord()][map.getyCord() + 1].setType('T');
 					map.setyCord(map.getyCord() + 1);
 
 					if (encounterMonster()) {
