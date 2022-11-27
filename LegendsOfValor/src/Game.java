@@ -17,8 +17,12 @@ public class Game {
 	private HeroParty heroPP;
 
 	//hero party for part 2
-	private ArrayList<Hero> heroParty;
-	
+	private ArrayList<Hero> heroAlive;
+
+	//hero alive
+	private ArrayList<Hero> heroDead;
+
+
 	//market
 	private Market market;
 	//map
@@ -36,11 +40,11 @@ public class Game {
 	public Game() {
 		heroList = new HeroList();
 		monList = new MonList();
-		heroPP = new HeroParty();
+//		heroPP = new HeroParty();
 
 		market = new Market();
 		map = new Map(8,setupRoles());
-		combat = new Combat(heroPP);
+//		combat = new Combat(heroPP);
 		scan = new Scanner(System.in);
 		random = new Random();
 	}
@@ -64,9 +68,9 @@ public class Game {
 		System.out.println("In the beginning you can choose some heroes to build you team");
 		System.out.println("Good luck and have fun!!!");
 
-		map.grid[6][0].setHasHero(true);
-		map.grid[6][3].setHasHero(true);
-		map.grid[6][6].setHasHero(true);
+		map.grid[6][1].setHasHero(true);
+		map.grid[6][4].setHasHero(true);
+		map.grid[6][7].setHasHero(true);
 
 
 		map.grid[0][1].setHasMoster(true);
@@ -75,10 +79,13 @@ public class Game {
 
 		System.out.print(map);
 
-		heroParty.get(0).connectMap(map);
+		heroAlive.get(0).connectMap(map);
 
+		while (true){
+			oneRoleRound();
 
-		oneTurn();
+		}
+
 		// build up the hero team
 //		heroPP.init();
 
@@ -92,37 +99,66 @@ public class Game {
 	}
 
 
-	private char oneTurn(){
+	private char oneRoleRound(){
 
-		for (Hero hero : heroParty) {
+		for (Hero hero : heroAlive) {
 			hero.oneTurn();
+
+			updateMonsterHero();
+			System.out.println("Monster or Hero Map: ");
+			map.displayMonsterOrHero();
 			System.out.println(map);
 		}
 
+
+		//to be complete function:
+
+		System.out.println("The function below should be complete ~~~~~");
+
+		System.out.println("Monster 4 take turn");
+		System.out.println("Monster 5 take turn");
+		System.out.println("Monster 6 take turn");
+		System.out.println();
+
+		System.out.println("Alive Heroes should regain hp and mana here");
+		System.out.println("Dead Hero respawn");
+
+		System.out.println("One round end for both hero and monster");
 
 
 		return 'H';
 	}
 
+	private Map updateMonsterHero(){
+
+		System.out.println("Reset grid");
+
+		System.out.println(map.getFINAL_GRID());
+
+
+
+		return map;
+	}
+
 
 	private ArrayList<Role> setupRoles(){
 		roles = new ArrayList<>();
-		heroParty= new ArrayList<>();
-		Hero.connectHeroParty(heroParty);
+		heroAlive = new ArrayList<>();
+		Hero.connectHeroParty(heroAlive);
 
 
 		Role hero =  heroList.getHeroList().get(2);
-		hero.readyToDisplay(6,0);
+		hero.readyToDisplay(6,1);
 		roles.add(hero);
-		heroParty.add((Hero) hero);
+		heroAlive.add((Hero) hero);
 		hero =  heroList.getHeroList().get(4);
-		hero.readyToDisplay(6,3);
+		hero.readyToDisplay(6,4);
 		roles.add(hero);
-		heroParty.add((Hero) hero);
+		heroAlive.add((Hero) hero);
 		hero =  heroList.getHeroList().get(16);
-		hero.readyToDisplay(6,6);
+		hero.readyToDisplay(6,7);
 		roles.add(hero);
-		heroParty.add((Hero) hero);
+		heroAlive.add((Hero) hero);
 
 
 

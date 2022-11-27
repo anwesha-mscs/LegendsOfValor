@@ -21,6 +21,7 @@ public abstract class Role {
 	protected int laneOri;
 
 	// the lane it current in
+	// count from 1      1,2,3
 	protected int laneCurr;
 
 	//to differentiate  display on  the map

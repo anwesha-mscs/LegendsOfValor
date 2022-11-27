@@ -6,13 +6,17 @@ public class Map extends Grid {
     //no one can change my grid
     protected final MapUnit[][] FINAL_GRID;
 
+    public MapUnit[][] getFINAL_GRID() {
+        return FINAL_GRID;
+    }
+
     // the probability to generate Obstacle is defined here
     private static final double ObsG = 0.2;
 
     // the probability to generate a market
     private static final double MarkeG = 0.3;
 
-    private final Random ran ;
+    private final Random ran;
 
     //party location -x
     private int xCord;
@@ -25,7 +29,6 @@ public class Map extends Grid {
     private ArrayList<Role> roles;
 
 
-
     //getter and setter below
 //    public int getxCord() {return xCord;}
 
@@ -35,7 +38,7 @@ public class Map extends Grid {
 
 //    public void setyCord(int yCord) {this.yCord = yCord;}
 
-    public Map(int boardSize,ArrayList<Role> ro) {
+    public Map(int boardSize, ArrayList<Role> ro) {
         super(boardSize);
         ran = new Random();
         roles = ro;
@@ -46,8 +49,7 @@ public class Map extends Grid {
 
 
     // Initialize the map of the whole game
-    public MapUnit[][] init(){
-
+    public MapUnit[][] init() {
 
 
         int xyCor[] = getEmptyLocation();
@@ -69,9 +71,9 @@ public class Map extends Grid {
         return grid;
     }
 
-    public MapUnit[][] generateSpecialTerrain(char te){
-        int amout= (int) (charNum -16-12);
-        amout= (int) (amout * 0.2);
+    public MapUnit[][] generateSpecialTerrain(char te) {
+        int amout = (int) (charNum - 16 - 12);
+        amout = (int) (amout * 0.2);
 
         for (int am = 0; am < amout; am++) {
             int xys[] = getEmptyLocation();
@@ -79,25 +81,23 @@ public class Map extends Grid {
         }
 
 
-
         return grid;
     }
 
-    public int[] getEmptyLocation(){
+    public int[] getEmptyLocation() {
 
-        int xy[] =  new int[2];
+        int xy[] = new int[2];
 
-        do {int i = ran.nextInt(charNum);
+        do {
+            int i = ran.nextInt(charNum);
 
-            xy[0] = i/size;
-            xy[1] = i%size;
+            xy[0] = i / size;
+            xy[1] = i % size;
 //            System.out.println("random i:"+i);
 
 //            System.out.println("Type:" + grid[xy[0]][xy[1]].getType());
 
-        }while (grid[xy[0]][xy[1]].getType()!=' ');
-
-
+        } while (grid[xy[0]][xy[1]].getType() != ' ');
 
 
         return xy;
@@ -105,19 +105,20 @@ public class Map extends Grid {
 
 
     // if I don't reset the idiotic grid then the market will not be able to enter again
-    public MapUnit[][] resetIdioticGrid(){
+    public MapUnit[][] resetIdioticGrid() {
 
         grid = cloneGrid(FINAL_GRID);
         return grid;
     }
 
-    public MapUnit[][] fillInaccessField(){
+    public MapUnit[][] fillInaccessField() {
         fillInaccessColumn(2);
         fillInaccessColumn(5);
         return grid;
 
     }
-    public MapUnit[][] fillInaccessColumn(int c){
+
+    public MapUnit[][] fillInaccessColumn(int c) {
         for (int i = 0; i < 8; i++) {
             grid[i][c].setType('X');
 
@@ -126,9 +127,9 @@ public class Map extends Grid {
 
     }
 
-    public MapUnit[][] fillinNexus(){
+    public MapUnit[][] fillinNexus() {
         for (int i = 0; i < 8; i++) {
-            if (i%3!=2) {
+            if (i % 3 != 2) {
                 grid[0][i].setType('N');
                 grid[7][i].setType('n');
             }
@@ -139,32 +140,31 @@ public class Map extends Grid {
     }
 
 
-
     // set up the distribution of none empty object
-    public MapUnit[][] setUpMap(){
-        int m = (int) (charNum* MarkeG);
+    public MapUnit[][] setUpMap() {
+        int m = (int) (charNum * MarkeG);
         int counter = 0;
-        while(counter<m){
-            int i = ran.nextInt(size );
-            int j = ran.nextInt(size );
+        while (counter < m) {
+            int i = ran.nextInt(size);
+            int j = ran.nextInt(size);
 
 
-            if (grid[i][j].getType() != 'M'){
+            if (grid[i][j].getType() != 'M') {
                 grid[i][j].setType('M');
-                counter ++;
+                counter++;
             }
 
         }
 
-        int n = (int) (charNum* ObsG);
+        int n = (int) (charNum * ObsG);
         counter = 0;
-        while(counter< n){
+        while (counter < n) {
             int i = ran.nextInt(size);
             int j = ran.nextInt(size);
-            if (grid[i][j].getType() != 'X' && counter < n){
+            if (grid[i][j].getType() != 'X' && counter < n) {
                 grid[i][j].setType('X');
 //                grid[i][j].setDis('X');
-                counter ++;
+                counter++;
             }
 
         }
@@ -173,7 +173,7 @@ public class Map extends Grid {
     }
 
     // I believe this is a deep clone
-    public MapUnit[][] cloneGrid(MapUnit[][] gr){
+    public MapUnit[][] cloneGrid(MapUnit[][] gr) {
         MapUnit[][] iterGrid = new MapUnit[gr.length][gr[0].length];
         for (int x = 0; x < gr.length; x++) {
             for (int y = 0; y < gr[x].length; y++) {
@@ -182,6 +182,97 @@ public class Map extends Grid {
         }
         return iterGrid;
     }
+
+    public int displayMonsterOrHero() {
+
+
+        for (int i = 0; i < this.size; ++i) {
+            System.out.print("+---");
+        }
+        System.out.println("+");
+
+
+        //modify here to display all the monster and hero
+        for (int i = 0; i < this.size; ++i) {
+            System.out.print("|");
+            for (int j = 0; j < this.size; ++j) {
+//                if(xCord == i && yCord ==j){
+//                    System.out.print(" P |");
+//                }else {
+//                    System.out.print(" " + this.FINAL_GRID[i][j].getType() + " |");
+//                }
+
+                boolean hasDis = false;
+
+                if (grid[i][j].isHasHero()) {
+                    System.out.print(" " + "H" + " |");
+                } else if (grid[i][j].isHasMoster()) {
+                    System.out.print(" " + "M" + " |");
+                }else {
+                    System.out.print(" " + " " + " |");
+
+                }
+
+
+
+                //  new code
+//                for (Role role : roles) {
+//                    if (role.getX() == i && role.getY() == j) {
+//                        System.out.print(" " + role.getDis() + " |");
+//                        hasDis = true;
+//                    } else {
+//                    System.out.print(" " + this.FINAL_GRID[i][j].getType() + " |");
+//                    }
+//                }
+
+                // -- new code ended
+
+//                if (!hasDis) {
+//                    System.out.print(" " + this.FINAL_GRID[i][j].getType() + " |");
+//                    hasDis = false;
+//                }
+
+
+            }
+
+//            if (i == xCord){
+
+//                System.out.print(" <---");
+//            }
+            System.out.println();
+            for (int k = 0; k < this.size; ++k) {
+                System.out.print("+---");
+            }
+            System.out.println("+");
+        }
+//        return "";
+
+
+//        for (int i = 0; i < this.size; ++i) {
+//            System.out.print("|");
+//            for (int j = 0; j < this.size; ++j) {
+//
+//                if (grid[i][j].isHasHero()) {
+//                    System.out.print(" " + "H" + " |");
+//                } else if (grid[i][j].isHasMoster()) {
+//                    System.out.print(" " + "M" + " |");
+//                }else {
+//                    System.out.print(" " + " " + " |");
+//
+//                }
+//
+//
+//
+//            }
+//
+//        }
+
+
+        return charNum;
+    }
+
+
+
 
 
     // to display the whole map to the player

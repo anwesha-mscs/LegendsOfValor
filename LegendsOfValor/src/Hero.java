@@ -193,7 +193,7 @@ public abstract class Hero extends Role {
 	public char oneTurn(){
 		// let player choose what to do next
 		System.out.println(getDis() +" What do you want to do next?");
-		String instruction = "'q' to quit 'h' to display your information 'w' ,'a','s','d', to move 't' to teleport 'r' to recall";
+		String instruction = "'q' to quit 'h' to display your information 'w' ,'a','s','d', to move 't' to teleport 'r' to recall 'p' to pass";
 		char c = Helper.getCharInput(instruction);
 
 		boolean ret = false;
@@ -218,6 +218,9 @@ public abstract class Hero extends Role {
 				case 's':
 				case 'd':
 					ret = updateLocation(c);
+					break;
+				case 'p':
+					ret = true;
 //			}
 
 		}
@@ -323,11 +326,20 @@ public abstract class Hero extends Role {
 			return false;
 		}
 
+		System.out.println("Leave enter:");
+
+		System.out.println(getDis()+"Before x y:"+x+y);
 		map.grid[leavex][leavey].setHasHero(false);
 		map.grid[enterx][entery].setHasHero(true);
 
 		x=enterx;
 		y=entery;
+
+		laneCurr = y/3 +1;
+
+
+
+		System.out.println(getDis()+"after x y: "+x+y);
 		return true;
 	}
 
