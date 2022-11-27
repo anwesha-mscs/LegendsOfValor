@@ -376,10 +376,24 @@ public abstract class Hero extends Role {
 
 	private boolean updateLocation(char c) {
 
+		boolean re=false;
 
+		switch (c){
+			case 'w':
+				re = leaveEnter(x-1,y);
+				break;
+			case 's':
+				re =leaveEnter(x+1,y);
+				break;
+			case 'a':
+				re =leaveEnter(x,y-1);
+				break;
+			case 'd':
+				re =leaveEnter(x,y+1);
 
+		}
 
-		return false;
+		return re;
 	}
 
 	// basic levelup here 
