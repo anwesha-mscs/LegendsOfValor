@@ -5,6 +5,27 @@ public class MapUnit implements Cloneable{
     private char type;       //' ' is nothing 'X' is obstacle  'M' is the market  'P' is the hero party
     //'B' is bush  'C' is Cave 'K' is Koulou  "N" for monster nexus 'n' for hero nexus
 
+
+    private boolean hasHero;
+
+    public boolean isHasHero() {
+        return hasHero;
+    }
+
+    public void setHasHero(boolean hasHero) {
+        this.hasHero = hasHero;
+    }
+
+    public boolean isHasMoster() {
+        return hasMoster;
+    }
+
+    public void setHasMoster(boolean hasMoster) {
+        this.hasMoster = hasMoster;
+    }
+
+    private boolean hasMoster;
+
     public MapUnit(char content){
         type = content;
     }

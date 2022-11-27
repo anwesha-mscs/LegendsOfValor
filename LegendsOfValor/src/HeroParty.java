@@ -8,23 +8,22 @@ public class HeroParty {
     public void init(){
         HeroList heroList = new HeroList();
 
-//        int heroNum = 1;
-        int heroNum = Helper.getIntInput("How many heroes do you want to choose?",3);
+        int heroNum = 1;
+//        int heroNum = Helper.getIntInput("How many heroes do you want to choose?",3);
 
-        System.out.println("Please select " + heroNum + " heroes to build your team!");
+//        System.out.println("Please select " + heroNum + " heroes to build your team!");
         // display hero list
 
 
-        while (heroParty.size()<heroNum){
-            int chosen;
-            System.out.println(heroList);
-            chosen = Helper.getIntInput("Which hero do you want to choose?",heroList.getHeroList().size());
-            heroParty.add(heroList.getHeroList().get(chosen));
+//        while (heroParty.size()<heroNum){
+//            int chosen;
+//            System.out.println(heroList);
+//            chosen = Helper.getIntInput("Which hero do you want to choose?",heroList.getHeroList().size());
+//            heroParty.add(heroList.getHeroList().get(chosen));
+//
+//        }
 
-        }
-
-
-//        heroParty.add(heroList.getHeroList().get(16));
+        heroParty.add(heroList.getHeroList().get(8));
 
         System.out.println("Hero party is all set");
         System.out.println("Here it is ");

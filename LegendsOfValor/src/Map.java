@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 // the whole map contains a grid  and contains the current location of the hero party
 public class Map extends Grid {
@@ -20,18 +21,24 @@ public class Map extends Grid {
     private int yCord;
 
 
+    // Role list which contains of all of the monster and hero
+    private ArrayList<Role> roles;
+
+
+
     //getter and setter below
-    public int getxCord() {return xCord;}
+//    public int getxCord() {return xCord;}
 
-    public int getyCord() {return yCord;}
+//    public int getyCord() {return yCord;}
 
-    public void setxCord(int xCord){this.xCord = xCord;}
+//    public void setxCord(int xCord){this.xCord = xCord;}
 
-    public void setyCord(int yCord) {this.yCord = yCord;}
+//    public void setyCord(int yCord) {this.yCord = yCord;}
 
-    public Map(int boardSize) {
+    public Map(int boardSize,ArrayList<Role> ro) {
         super(boardSize);
         ran = new Random();
+        roles = ro;
         init();
         FINAL_GRID = cloneGrid(grid);
 
@@ -44,8 +51,8 @@ public class Map extends Grid {
 
 
         int xyCor[] = getEmptyLocation();
-        setxCord(xyCor[0]);
-        setyCord(xyCor[1]);
+//        setxCord(xyCor[0]);
+//        setyCord(xyCor[1]);
 
 //        setUpMap();
         fillInaccessField();
@@ -84,9 +91,9 @@ public class Map extends Grid {
 
             xy[0] = i/size;
             xy[1] = i%size;
-            System.out.println("random i:"+i);
+//            System.out.println("random i:"+i);
 
-            System.out.println("Type:" + grid[xy[0]][xy[1]].getType());
+//            System.out.println("Type:" + grid[xy[0]][xy[1]].getType());
 
         }while (grid[xy[0]][xy[1]].getType()!=' ');
 
@@ -182,21 +189,21 @@ public class Map extends Grid {
     public String
     toString() {
 
-        System.out.println("The party are now locating at: " + "(" + xCord + "," + yCord + ")" );
+//        System.out.println("The party are now locating at: " + "(" + xCord + "," + yCord + ")" );
         System.out.println("The world of play: ");
 
 
         //to indicate where the party is using "Pointer"
-        for (int poin = 0; poin < size; poin++) {
-            if (yCord == poin){
-                System.out.print("  | ");
-                break;
-            }else {
-                System.out.print("    ");
-
-            }
-
-        }
+//        for (int poin = 0; poin < size; poin++) {
+//            if (yCord == poin){
+//                System.out.print("  | ");
+//                break;
+//            }else {
+//                System.out.print("    ");
+//
+//            }
+//
+//        }
         System.out.println();
 
         for (int poin = 0; poin < size; poin++) {
@@ -219,21 +226,43 @@ public class Map extends Grid {
         System.out.println("+");
 
 
-
+        //modify here to display all the monster and hero
         for (int i = 0; i < this.size; ++i) {
             System.out.print("|");
             for (int j = 0; j < this.size; ++j){
-                if(xCord == i && yCord ==j){
-                    System.out.print(" P |");
-                }else {
-                    System.out.print(" " + this.FINAL_GRID[i][j].getType() + " |");
+//                if(xCord == i && yCord ==j){
+//                    System.out.print(" P |");
+//                }else {
+//                    System.out.print(" " + this.FINAL_GRID[i][j].getType() + " |");
+//                }
+
+                boolean hasDis = false;
+
+
+                //  new code
+                for (Role role : roles) {
+                    if(role.getX() == i && role.getY() == j){
+                        System.out.print(" "+role.getDis()+" |");
+                        hasDis = true;
+                    }else {
+//                    System.out.print(" " + this.FINAL_GRID[i][j].getType() + " |");
+                    }
                 }
+
+                // -- new code ended
+
+                if (!hasDis) {
+                    System.out.print(" " + this.FINAL_GRID[i][j].getType() + " |");
+                    hasDis =false;
+                }
+
+
             }
 
-            if (i == xCord){
+//            if (i == xCord){
 
-                System.out.print(" <---");
-            }
+//                System.out.print(" <---");
+//            }
             System.out.println();
             for (int k = 0; k < this.size; ++k) {
                 System.out.print("+---");

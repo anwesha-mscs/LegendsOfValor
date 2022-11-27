@@ -7,7 +7,9 @@ import java.util.Random;
 public abstract class Hero extends Role {
 
 	protected int mana;
-	
+
+	protected static ArrayList<Hero> heroes;
+
 	//strength
 	protected int stren;
 	
@@ -29,6 +31,8 @@ public abstract class Hero extends Role {
 	protected Weapon weap;
 	
 	protected Armour armor;
+
+//	private temp =
 	
 	protected ArrayList<Armour> armorL;
 	
@@ -177,6 +181,192 @@ public abstract class Hero extends Role {
 			}
 		}
 		return eff;
+	}
+
+	public static 	ArrayList<Hero> connectHeroParty(ArrayList<Hero> he){
+
+		heroes = he;
+		return heroes;
+	}
+
+
+	public char oneTurn(){
+		// let player choose what to do next
+		System.out.println(getDis() +" What do you want to do next?");
+		String instruction = "'q' to quit 'h' to display your information 'w' ,'a','s','d', to move 't' to teleport 'r' to recall";
+		char c = Helper.getCharInput(instruction);
+
+		boolean ret = false;
+
+//		if (checkMovementValidity(c)) {
+			switch (c){
+				case 'h':
+					System.out.println(this);
+
+					break;
+				case 'q':
+					System.out.println("Good bye see you next time!");
+					System.exit(-16384);
+				case 'r':
+					ret = recall();
+					break;
+				case 't':
+					ret = teleport();
+					break;
+				case 'w':
+				case 'a':
+				case 's':
+				case 'd':
+					ret = updateLocation(c);
+//			}
+
+		}
+
+		if (ret) {
+			return c;
+		}else {
+			System.out.println("The decision you've made isn't valid ,please try again.");
+			return oneTurn();
+//						c = Helper.getCharInput(instruction);
+
+		}
+//		System.out.println();
+
+		//main loop of the whole game
+//		while (true){
+
+
+
+
+
+//		}
+
+//		return c;
+	}
+
+	public int getLaneOri(){
+		return laneOri;
+	}
+
+
+
+	private boolean teleport() {
+
+		int seq=0;
+
+		for (Hero hero : heroes) {
+			if (hero!=this) {
+				if (laneCurr!= hero.laneCurr) {
+					System.out.print("Do you want to move near" + hero.getDis()+" ? 'y' for yes 'n' for no");
+
+					char r= Helper.getCharInput("'y' for yes 'n' for no");
+					if (r=='y') {
+						char sec = Helper.getCharInput("Where do you want to move? 'b' for beside 'a' for after");
+
+						if (sec=='b') {
+							int beside = (hero.y%3 %2 ==0 ?1:0) + (hero.laneCurr-1) * 3;
+//							System.out.println("map:"+map);
+
+							System.out.println("Beside:  "+beside+"y"+ map.grid[beside][hero.x].isHasHero()+" has hero.");
+							System.out.println("hero location: "+hero.x +" " + hero.y);
+							System.out.println("beside location: "+hero.x +" " + beside);
+							System.out.println("my location: "+x +" " + y);
+							if(!map.grid[beside][hero.x].isHasHero()){
+//								System.out.println("Beside"+hero.getDis()+" there isn't any hero you can teleport");
+								System.out.println(getDis()+" try to teleport beside "+hero.getDis());
+
+								return leaveEnter(x,y,hero.x,beside);
+//								return true;
+							}else {
+								System.out.println("Teleport failed,there already has hero");
+								return false;
+							}
+						}else {
+
+							System.out.println(getDis()+" try to teleport behind "+hero.getDis());
+							return leaveEnter(x,y,hero.x+1, hero.y);
+
+						}
+
+
+//						System.out.println("Where do you want to move? 'b' for beside 'a' for after");
+					}
+//					return true;
+				}
+			}
+		}
+
+
+		System.out.println("You didn't choose any hero destination to teleport");
+		return false;
+	}
+
+
+	// to be complete
+	private boolean leaveEnter(int leavex,int leavey,int enterx,int entery){
+
+		try {
+			char type= map.grid[enterx][entery].getType();
+			if(type=='X'){
+				System.out.println("The location you selected is an inaccessible area. You can't enter");
+				return false;
+			} else if (map.grid[enterx][entery].isHasHero()) {
+				System.out.println("There is already a hero there! You can not enter it.");
+				return false;
+			}
+
+		} catch (Exception e) {
+//			throw new RuntimeException(e);
+			System.out.println(e.getMessage());
+			System.out.println(e);
+			System.out.println("The place you want to enter has out of bound!");
+			return false;
+		}
+
+		map.grid[leavex][leavey].setHasHero(false);
+		map.grid[enterx][entery].setHasHero(true);
+
+		x=enterx;
+		y=entery;
+		return true;
+	}
+
+	private boolean recall() {
+
+
+		return false;
+	}
+
+	private boolean checkMovementValidity(char move){
+
+
+		switch (move){
+			case 't':
+				for (Hero hero : heroes) {
+					if (hero!=this) {
+						System.out.println("Lane:"+laneCurr +" "+ hero.laneCurr);
+						if (laneCurr!= hero.laneCurr) {
+							return true;
+						}
+					}
+//					System.out.println();
+					System.out.println("All hero in one lane!  no move available");
+				}return false;
+
+
+
+		}
+
+
+		return false;
+	}
+
+	private boolean updateLocation(char c) {
+
+
+
+
+		return false;
 	}
 
 	// basic levelup here 
