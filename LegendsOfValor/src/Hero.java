@@ -278,7 +278,7 @@ public abstract class Hero extends Role {
 //								System.out.println("Beside"+hero.getDis()+" there isn't any hero you can teleport");
 								System.out.println(getDis()+" try to teleport beside "+hero.getDis());
 
-								return leaveEnter(x,y,hero.x,beside);
+								return leaveEnter(hero.x,beside);
 //								return true;
 							}else {
 								System.out.println("Teleport failed,there already has hero");
@@ -287,7 +287,7 @@ public abstract class Hero extends Role {
 						}else {
 
 							System.out.println(getDis()+" try to teleport behind "+hero.getDis());
-							return leaveEnter(x,y,hero.x+1, hero.y);
+							return leaveEnter(hero.x+1, hero.y);
 
 						}
 
@@ -306,7 +306,7 @@ public abstract class Hero extends Role {
 
 
 	// to be complete
-	private boolean leaveEnter(int leavex,int leavey,int enterx,int entery){
+	private boolean leaveEnter(int enterx,int entery){
 
 		try {
 			char type= map.grid[enterx][entery].getType();
@@ -329,7 +329,7 @@ public abstract class Hero extends Role {
 		System.out.println("Leave enter:");
 
 		System.out.println(getDis()+"Before x y:"+x+y);
-		map.grid[leavex][leavey].setHasHero(false);
+		map.grid[x][y].setHasHero(false);
 		map.grid[enterx][entery].setHasHero(true);
 
 		x=enterx;
@@ -345,8 +345,9 @@ public abstract class Hero extends Role {
 
 	private boolean recall() {
 
+		System.out.println("Try to recall to "+getDis()+"  home");
+		return 	leaveEnter(7,(laneOri-1)*3);
 
-		return false;
 	}
 
 	private boolean checkMovementValidity(char move){

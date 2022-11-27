@@ -68,9 +68,9 @@ public class Game {
 		System.out.println("In the beginning you can choose some heroes to build you team");
 		System.out.println("Good luck and have fun!!!");
 
-		map.grid[6][1].setHasHero(true);
-		map.grid[6][4].setHasHero(true);
-		map.grid[6][7].setHasHero(true);
+		map.grid[7][0].setHasHero(true);
+		map.grid[7][3].setHasHero(true);
+		map.grid[7][6].setHasHero(true);
 
 
 		map.grid[0][1].setHasMoster(true);
@@ -148,15 +148,15 @@ public class Game {
 
 
 		Role hero =  heroList.getHeroList().get(2);
-		hero.readyToDisplay(6,1);
+		hero.readyToDisplay(7,0);
 		roles.add(hero);
 		heroAlive.add((Hero) hero);
 		hero =  heroList.getHeroList().get(4);
-		hero.readyToDisplay(6,4);
+		hero.readyToDisplay(7,3);
 		roles.add(hero);
 		heroAlive.add((Hero) hero);
 		hero =  heroList.getHeroList().get(16);
-		hero.readyToDisplay(6,7);
+		hero.readyToDisplay(7,6);
 		roles.add(hero);
 		heroAlive.add((Hero) hero);
 
