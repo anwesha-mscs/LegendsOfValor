@@ -1,47 +1,54 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 // all the hero can be chosen to build up a team
 public class HeroList {
-	private ArrayList<Hero> hl;
+	private ArrayList<Hero> hl = new ArrayList<Hero>();
 
-	public HeroList()
-	{
-		hl = new ArrayList<>();
+	public HeroList() {
+		//parsing a CSV file into BufferedReader class constructor
 
-		// construct the paladin list
-		hl.add(new Paladin("Parzival", 1, 0, 300, 750, 650, 700, 2500, 7));
-		hl.add(new Paladin("Sehanie_Moonbow", 1, 0, 300, 750, 700, 700, 2500, 7));
-		hl.add(new Paladin("Skoraeus_Stonebones", 1, 0, 250, 650, 600, 350, 2500, 4));
-		hl.add(new Paladin("Garl_Glittergold", 1, 0, 100, 600, 500, 400, 2500, 5));
-		hl.add(new Paladin("Amaryllis_Astra", 1, 0, 500, 500, 500, 500, 2500, 5));
-		hl.add(new Paladin("Caliber_Heist", 1, 0, 400, 400, 400, 400, 2500, 8));
+		ArrayList<String> filenames = new ArrayList<String>();
+		filenames.add("Warriors.csv");
+		filenames.add("Paladins.csv");
+		filenames.add("Sorcerers.csv");
+		for (int fileCount = 0; fileCount < filenames.size(); fileCount++) {
+			int count = 0;
+			ArrayList<Hero> heroes = new ArrayList<Hero>();
+			try (BufferedReader br = new BufferedReader(new FileReader("Resources/" + filenames.get(fileCount)))) {
+				String line;
+				while ((line = br.readLine()) != null) {
+					if (count == 0) {
+						count += 1;
+						continue;
+					}
+					List<String> eachLineData = Arrays.asList(line.split(","));
+					Hero hero = HeroFactory.getHero(filenames.get(fileCount), eachLineData.get(0), Integer.parseInt(eachLineData.get(1)), Integer.parseInt(eachLineData.get(2)), Integer.parseInt(eachLineData.get(3)), Integer.parseInt(eachLineData.get(4)), Integer.parseInt(eachLineData.get(5)), Integer.parseInt(eachLineData.get(6)));
+					heroes.add(hero);
+				}
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			hl.addAll(heroes);
 
-		// construct the sorcerer list
-		hl.add(new Sorcerer("Rillifane_Rallathil", 1, 0, 1300, 750, 450, 500, 2500, 9));
-		hl.add(new Sorcerer("Segojan_Earthcaller", 1, 0, 900, 800, 500, 650, 2500, 5));
-		hl.add(new Sorcerer("Reign_Havoc", 1, 0, 800, 800, 800, 800, 2500, 8));
-		hl.add(new Sorcerer("Reverie_Ashels", 1, 0, 900, 800, 700, 400, 2500, 7));
-		hl.add(new Sorcerer("Kalabar", 1, 0, 800, 850, 400, 600, 2500, 6));
-		hl.add(new Sorcerer("Skye_Soar", 1, 0, 1000, 700, 400, 500, 2500, 5));
-
-		// construct the warrior list
-		hl.add(new Warrior("Gaerdal_Ironhand", 1, 0, 100, 700, 500, 600, 1354, 7));
-		hl.add(new Warrior("Sehanine_Monnbow", 1, 0, 600, 700, 800, 500, 2500, 8));
-		hl.add(new Warrior("Muamman_Duathall", 1, 0, 300, 900, 500, 750, 2546, 6));
-		hl.add(new Warrior("Flandal_Steelskin", 1, 0, 200, 750, 650, 700, 2500, 7));
-		hl.add(new Warrior("Undefeated_Yoj", 1, 0, 400, 800, 400, 700, 2500, 7));
-		hl.add(new Warrior("Eunoia_Cyn", 1, 0, 400, 700, 800, 600, 2500, 6));
+		}
 	}
 
 	// get the hero list
-	public ArrayList<Hero> getHeroList() {return hl;}
+	public ArrayList<Hero> getHeroList() {
+			return hl;
+		}
 
 	// print the hero list of the game
-
 	@Override
 	public String toString() {
 		System.out.println("+----------------------------------------------------------------------------------------+");
-		System.out.println("No |        Name       | Strength | Agility | Dexterity | Money | experience | Type");
+		System.out.println("No |        Name       | Strength | Agility | Dexterity | Money | Experience | Type");
 		for (int i = 0; i < hl.size(); i++){
 			System.out.printf("%-3s %-22s",(i+1), hl.get(i).getName());
 			System.out.printf("%-10s", hl.get(i).getStren());
@@ -53,9 +60,6 @@ public class HeroList {
 			System.out.println();
 		}
 		System.out.println("+----------------------------------------------------------------------------------------+");
-
-
 		return "";
 	}
-
 }
