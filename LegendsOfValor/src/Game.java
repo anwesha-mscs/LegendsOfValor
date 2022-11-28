@@ -16,11 +16,10 @@ public class Game {
 	// the hero party class which are easier to control
 	private HeroParty heroPP;
 
-	//hero party for part 2
+	// hero alive
 	private ArrayList<Hero> heroAlive;
-
-	//hero alive
-	private ArrayList<Hero> heroDead;
+	//hero corpses
+	private ArrayList<Hero> heroCorpses;
 
 
 	//market
@@ -79,7 +78,7 @@ public class Game {
 
 		System.out.print(map);
 
-		heroAlive.get(0).connectMap(map);
+		heroAlive.get(0).connectMap(map,market);
 
 		while (true){
 			oneRoleRound();
@@ -120,13 +119,37 @@ public class Game {
 		System.out.println("Monster 6 take turn");
 		System.out.println();
 
-		System.out.println("Alive Heroes should regain hp and mana here");
-		System.out.println("Dead Hero respawn");
+
+
+//		System.out.println("Alive Heroes should regain hp and mana here");
+		regainHpHero();
+//		System.out.println("Dead Hero respawn");
+		respawnHero();
 
 		System.out.println("One round end for both hero and monster");
 
 
 		return 'H';
+	}
+
+	private int regainHpHero(){
+		for (Hero alive : heroAlive) {
+			alive.regainHpMana();
+		}
+
+
+		return 0;
+	}
+
+	private int respawnHero(){
+
+		for (Hero corps : heroCorpses) {
+			if(			corps.reSpawn()){
+				heroCorpses.remove(corps);
+				heroAlive.add(corps);
+				corps.setHp(corps.getMaxHP());
+			}
+		}return 0;
 	}
 
 	private Map updateMonsterHero(){
@@ -144,7 +167,7 @@ public class Game {
 	private ArrayList<Role> setupRoles(){
 		roles = new ArrayList<>();
 		heroAlive = new ArrayList<>();
-		Hero.connectHeroParty(heroAlive);
+		Hero.connectHeroParty(heroAlive,heroCorpses);
 
 
 		Role hero =  heroList.getHeroList().get(2);

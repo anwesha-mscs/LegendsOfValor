@@ -4,13 +4,19 @@ public abstract class Role {
 
 	protected String name;
 
+	//current HP
 	protected int hp;
+
+	// max hp
+	protected int maxHP;
 
 	protected int level;
 
 	//defence
 	protected int def;
 	protected static Map map;
+	protected static Market market;
+
 
 	// save it location in its class
 	protected int x;
@@ -78,6 +84,10 @@ public abstract class Role {
 		this.dis = dis;
 	}
 
+	public int getMaxHP() {
+		return maxHP;
+	}
+
 	public Role(String na, int le, int de)
 	{
 //		num ++;
@@ -85,7 +95,7 @@ public abstract class Role {
 
 		name = na;
 		level = le;
-		hp = (level*100);
+		maxHP = hp = (level*100);
 		def = de;
 		wheFaint = false;
 	}
@@ -101,8 +111,9 @@ public abstract class Role {
 		return true;
 	}
 
-	public void connectMap(Map m){
+	public void connectMap(Map m,Market mar){
 		map = m;
+		market = mar;
 		System.out.println("after connect map: " +m);
 	}
 

@@ -8,7 +8,14 @@ public abstract class Hero extends Role {
 
 	protected int mana;
 
-	protected static ArrayList<Hero> heroes;
+	protected int maxMana;
+
+	//alive heroes
+	protected static ArrayList<Hero> heroAlive;
+
+	//dead heroes
+	protected static ArrayList<Hero> heroCorpse;
+
 
 	//strength
 	protected int stren;
@@ -35,7 +42,9 @@ public abstract class Hero extends Role {
 //	private temp =
 	
 	protected ArrayList<Armour> armorL;
-	
+
+	//market
+
 	protected ArrayList<Weapon> weaponL;
 	
 	protected ArrayList<Potion> potionL;
@@ -58,7 +67,7 @@ public abstract class Hero extends Role {
 
 		itemContainer =new ItemContainer(armorL,weaponL,potionL,spellL);
 
-		mana =ma;
+		maxMana = mana =ma;
 		stren = st;
 		agi = ag;
 		dex =de;
@@ -67,6 +76,7 @@ public abstract class Hero extends Role {
 
 		//try to cheat here
 		hp*=64;
+		maxHP = hp;
 		money+=1024;
 		level =1024;
 		stren +=level;
@@ -177,21 +187,58 @@ public abstract class Hero extends Role {
 			// hero been killed
 			if(hp <= 0){
 				becomeFaint();
+				heroAlive.remove(this);
+				heroCorpse.add(this);
 				System.out.println("Oh no !!! Hero " + name + " has been eliminated");
 			}
 		}
 		return eff;
 	}
 
-	public static 	ArrayList<Hero> connectHeroParty(ArrayList<Hero> he){
+	public int regainHpMana(){
+		if(hp<maxHP){
+			hp*= 1.1;
+		}
+		if(mana<maxMana){
+			mana*=1.1;
+		}
 
-		heroes = he;
-		return heroes;
+		return 0;
+	}
+
+	public boolean reSpawn(){
+
+		boolean z=recall();
+
+		if(z){
+			wheFaint =false;
+			System.out.println(getDis()+" has respawn");
+		}else{
+			System.out.println("The nexus has been occupied "+getDis()+" respawn failed	");
+		}
+		return z;
+	}
+
+	public static 	ArrayList<Hero> connectHeroParty(ArrayList<Hero> he,ArrayList<Hero> cor){
+
+//		market=
+
+		heroCorpse = cor;
+		heroAlive = he;
+		return heroAlive;
 	}
 
 
 	public char oneTurn(){
 		// let player choose what to do next
+
+		//check whether in a market
+		if (map.grid[x][y].getType()=='n') {
+			System.out.println(getDis()+" Now you are stand in a nexus, you can make some transaction to the market.");
+			market.enterMaket(this);
+		}
+
+
 		System.out.println(getDis() +" What do you want to do next?");
 		String instruction = "'q' to quit 'h' to display your information 'w' ,'a','s','d', to move 't' to teleport 'r' to recall 'p' to pass";
 		char c = Helper.getCharInput(instruction);
@@ -257,7 +304,7 @@ public abstract class Hero extends Role {
 
 		int seq=0;
 
-		for (Hero hero : heroes) {
+		for (Hero hero : heroAlive) {
 			if (hero!=this) {
 				if (laneCurr!= hero.laneCurr) {
 					System.out.print("Do you want to move near" + hero.getDis()+" ? 'y' for yes 'n' for no");
@@ -355,7 +402,7 @@ public abstract class Hero extends Role {
 
 		switch (move){
 			case 't':
-				for (Hero hero : heroes) {
+				for (Hero hero : heroAlive) {
 					if (hero!=this) {
 						System.out.println("Lane:"+laneCurr +" "+ hero.laneCurr);
 						if (laneCurr!= hero.laneCurr) {
@@ -396,10 +443,19 @@ public abstract class Hero extends Role {
 		return re;
 	}
 
-	// basic levelup here 
+	public int getMaxMana() {
+		return maxMana;
+	}
+
+	// basic levelup here
 	public void levelUp()
 	{
-		mana = (int) Math.floor(mana*1.2);
+		maxMana = (int) Math.floor(maxMana*1.2);
+		maxHP = (int) Math.floor(maxHP*1.2);
+		regainHpMana();
+		regainHpMana();
+		regainHpMana();
+		regainHpMana();
 		exp -= level*64;
 		if(exp < 0){
 			exp =0;
