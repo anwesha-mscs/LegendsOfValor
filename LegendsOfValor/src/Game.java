@@ -17,12 +17,13 @@ public class Game {
 	private HeroParty heroPP;
 
 	// hero alive
-	private ArrayList<Hero> heroAlive;
+	private ArrayList<Hero> heroAlive = new ArrayList<>();
 
 	//monster alive
-	private ArrayList<Monster> monsterAlive;
+	private ArrayList<Monster> monsterAlive = new ArrayList<>();
 	//hero corpses
-	private ArrayList<Hero> heroCorpses;
+	private ArrayList<Hero> heroCorpses = new ArrayList<>();
+	private ArrayList<Battle> battles = new ArrayList<>();
 
 
 	//market
@@ -42,11 +43,9 @@ public class Game {
 	public Game() {
 		heroList = new HeroList();
 		monList = new MonList();
-//		heroPP = new HeroParty();
 
 		market = new Market();
 		map = new Map(8,setupRoles(),heroAlive,monsterAlive);
-//		combat = new Combat(heroPP);
 		scan = new Scanner(System.in);
 		random = new Random();
 	}
@@ -55,20 +54,21 @@ public class Game {
 	// the main function of the game
 	public void init() {
 		// briefly explain the rule
-		System.out.println("Hello there!!! Welcome to the \" Legends Game \" ");
+		System.out.println("Hello there!!! Welcome to \" Legends of Valor \" ");
 		System.out.println();
 
-		System.out.println("I believe that you have played game Pokemon Go !!! This game is quite similar to that game but this time it is your heroes rather than your pokenmon to fight with monsters.");
-		System.out.println("In this game, you can fight with monster, every time you win the combat you can earn money and the experience ");
-		System.out.println("If all the heroes all lose then the GAME IS OVER!!!");
+		System.out.println("I believe that you have played game Pokemon Go !!! This game is quite similar to that game but this time it is your heroes rather than your pokemon who will fight monsters.");
+		System.out.println("In this game, you can fight monsters to earn money and experience, visit the market and participate in lucrative trades and explore unknown regions. ");
+		System.out.println("If the hero loses during battle, they will be regenerated with some penalty!!");
 
-		System.out.println("The money can be used in the market to buy some stuff which are helpful to win the next combat"	);
-		System.out.println("You can also sell stuff in the market but only a part of the money will be refund");
-		System.out.println("When you wander around on the map there is a probability to encounter the monster. Then you can fight with them");
+		System.out.println("The money earned from battles can be used in the market to buy potions, weapons, armors and enticing spells which are helpful to win the next combat"	);
+		System.out.println("You can also sell your goods in the market at half the price you bought it for");
+		System.out.println("When you wander around on the map, you will encounter monsters. Stay strong and conquer!");
+		System.out.println("Each hero will start from a fixed place or his own nexus. The aim is to reach the monster's nexus before they reach yours!");
 
 		System.out.println();
-		System.out.println("In the beginning you can choose some heroes to build you team");
-		System.out.println("Good luck and have fun!!!");
+		System.out.println("In the beginning you can choose 3 heroes to build your team");
+		System.out.println("Good luck and above all remember to have fun!!!");
 
 		map.grid[0][1].setHasHero(true);
 		map.grid[7][3].setHasHero(true);
@@ -106,6 +106,46 @@ public class Game {
 		for (Hero hero : heroAlive) {
 			hero.oneTurn();
 
+			updateMonsterHero();
+			System.out.println("Monster or Hero Map: ");
+			map.displayMonsterOrHero();
+			System.out.println(map);
+		}
+		for(Monster mon : monsterAlive){
+			Battle battleTemp = null;
+			boolean laneBattleFlag = false;
+			boolean shouldDoCombat = mon.oneTurn();
+			if(shouldDoCombat && mon.getIsBattle() == false){
+				for(Battle battleCurr : battles){
+					if(battleCurr.getLane() == mon.laneOri){
+						laneBattleFlag = true;
+						battleTemp = battleCurr;
+					}
+				}
+				//this means there was no battle ongoing in this lane at all so start a new battle
+				if(laneBattleFlag == false) {
+					int x = mon.getX();
+					int y = mon.getY();
+					ArrayList<Monster> currMonList = new ArrayList<>();
+					ArrayList<Hero> currHeroList = new ArrayList<>();
+					currMonList.add(mon);
+					//find which is the hero or heroes in the monster's vicinity
+					for (Hero hero : heroAlive) {
+						if (((x-1)==hero.getX() && y== hero.getY())|| ((x+1)==hero.getX() && y== hero.getY()) || (x==hero.getX() && (y-1)== hero.getY()) || (x==hero.getX() && (y+1)== hero.getY()) || ((x-1)==hero.getX() && (y-1)== hero.getY()) || ((x+1)==hero.getX() && (y+1)== hero.getY())) {
+							currHeroList.add(hero);
+						}
+						Battle battle = new Battle(currMonList, currHeroList, mon.laneOri);
+						battles.add(battle);
+						this.heroCorpses = battle.fightBattle();
+					}
+				}
+				//this means there is already an ongoing battle. then the monster is added to this battle
+				else{
+					ArrayList<Monster> currentMonsters = battleTemp.getMonsterList();
+					currentMonsters.add(mon);
+					battleTemp.setMonsterList(currentMonsters);
+				}
+			}
 			updateMonsterHero();
 			System.out.println("Monster or Hero Map: ");
 			map.displayMonsterOrHero();
@@ -175,7 +215,7 @@ public class Game {
 
 
 		Role hero =  heroList.getHeroList().get(2);
-		hero.readyToDisplay(0,1);
+		hero.readyToDisplay(7,1);
 		roles.add(hero);
 		heroAlive.add((Hero) hero);
 		hero =  heroList.getHeroList().get(4);

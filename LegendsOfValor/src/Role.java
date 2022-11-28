@@ -17,6 +17,7 @@ public abstract class Role {
 	protected static Map map;
 	protected static Market market;
 
+	private boolean isBattle = false;
 
 	// save it location in its class
 	protected int x;
@@ -40,6 +41,13 @@ public abstract class Role {
 	// to describe whether the role has faint
 	protected boolean wheFaint;
 
+	public boolean getIsBattle() {
+		return isBattle;
+	}
+
+	public void setIsBattle(boolean battle) {
+		isBattle = battle;
+	}
 	public int getX() {
 		return x;
 	}
@@ -47,6 +55,7 @@ public abstract class Role {
 	public void setX(int x) {
 		this.x = x;
 	}
+
 
 	public int getY() {
 		return y;

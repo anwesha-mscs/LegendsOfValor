@@ -172,7 +172,7 @@ public abstract class Hero extends Role {
 		int temp = random.nextInt(10) + 1;
 
 		if (temp < (int) (agi *0.0016)){
-			System.out.println(name + " has successfully dodge a attack from the monster!");
+			System.out.println(name + " has successfully dodged an attack from the monster!");
 			return eff;
 		} else{
 			if(armor ==null){
@@ -212,7 +212,7 @@ public abstract class Hero extends Role {
 
 		if(z){
 			wheFaint =false;
-			System.out.println(getDis()+" has respawn");
+			System.out.println(getDis()+" has respawned");
 		}else{
 			System.out.println("The nexus has been occupied "+getDis()+" respawn failed	");
 		}
@@ -234,12 +234,12 @@ public abstract class Hero extends Role {
 
 		//check whether in a market
 		if (map.grid[x][y].getType()=='n') {
-			System.out.println(getDis()+" Now you are stand in a nexus, you can make some transaction to the market.");
+			System.out.println(getDis()+" You are now standing in a nexus. You can now buy and sell goods in the market.");
 			market.enterMaket(this);
 		}
 
 
-		System.out.println(getDis() +" What do you want to do next?");
+		System.out.println("Hero " +getDis() +" What do you want to do next?");
 		String instruction = "'q' to quit 'h' to display your information 'w' ,'a','s','d', to move 't' to teleport 'r' to recall 'p' to pass";
 		char c = Helper.getCharInput(instruction);
 
@@ -252,7 +252,7 @@ public abstract class Hero extends Role {
 
 					break;
 				case 'q':
-					System.out.println("Good bye see you next time!");
+					System.out.println("Good bye Brave Hero! See you next time! Till then Live Long and Conquer!");
 					System.exit(-16384);
 				case 'r':
 					ret = recall();
@@ -275,7 +275,7 @@ public abstract class Hero extends Role {
 		if (ret) {
 			return c;
 		}else {
-			System.out.println("The decision you've made isn't valid ,please try again.");
+			System.out.println("The decision you've made isn't valid, please try again.");
 			return oneTurn();
 //						c = Helper.getCharInput(instruction);
 
@@ -328,7 +328,7 @@ public abstract class Hero extends Role {
 								return leaveEnter(hero.x,beside);
 //								return true;
 							}else {
-								System.out.println("Teleport failed,there already has hero");
+								System.out.println("Teleport failed,there already is a hero present there");
 								return false;
 							}
 						}else {
@@ -347,7 +347,7 @@ public abstract class Hero extends Role {
 		}
 
 
-		System.out.println("You didn't choose any hero destination to teleport");
+		System.out.println("You didn't choose any hero destination to teleport to");
 		return false;
 	}
 
@@ -369,7 +369,7 @@ public abstract class Hero extends Role {
 //			throw new RuntimeException(e);
 			System.out.println(e.getMessage());
 			System.out.println(e);
-			System.out.println("The place you want to enter has out of bound!");
+			System.out.println("The place you want to enter is out of bounds!");
 			return false;
 		}
 
@@ -410,7 +410,7 @@ public abstract class Hero extends Role {
 						}
 					}
 //					System.out.println();
-					System.out.println("All hero in one lane!  no move available");
+					System.out.println("All heroes are in one lane!  No moves available");
 				}return false;
 
 
@@ -491,13 +491,13 @@ public abstract class Hero extends Role {
 			}
 			System.out.println("+-------------------------------------------------------------------------------+");
 
-			System.out.println("Choose the weapon you want using number ");
+			System.out.println("Choose the weapon you want using it's corresponding number ");
 			int num = scan.nextInt();
 			if(hand < weaponL.get(num-1).getHaNe()){
-				System.out.println("Sorry! Your hand number are too low to equip it");
+				System.out.println("Sorry! You do not seem to have enough free hands to equip it!");
 			}else {
 				weap = weaponL.get(num-1);
-				System.out.println("Successfully change ! Your current weapon is " + weap.getName() + " now!");
+				System.out.println("Successfully changed weapon!! Your current weapon is " + weap.getName());
 			}
 		}
 	}
@@ -505,9 +505,9 @@ public abstract class Hero extends Role {
 	// heros can change their armor
 	public void changeCurrArmor(){
 		if (armorL.size() == 0){
-			System.out.println("You must own a armor first and then to use it");
+			System.out.println("You must own a armour first to be able to equip it");
 		}else{
-			System.out.println("Here is your armor list. Choose one to equip.");
+			System.out.println("This is your armour list. Choose one to equip.");
 			System.out.println("+--------------------------------------------------------+");
 			System.out.println("    Name     | Price  |  Level  |  Damage_Reduction ");
 			System.out.println("+--------------------------------------------------------+");
@@ -516,19 +516,19 @@ public abstract class Hero extends Role {
 			}
 			System.out.println("+----------------------------------------------------------+");
 
-			System.out.println("Choose the armor you want using number");
+			System.out.println("Choose the armour you would like to equip using the corresponding number");
 			int num = scan.nextInt();
 			armor = armorL.get(num-1);
-			System.out.println("Successfully change !Your current armor is " + armor.getName() + " now!");
+			System.out.println("Successfully changed armour!!Your current armor is " + armor.getName());
 		}
 	}
 
 	// heros can use a potion
 	public void usePotion(){
 		if (potionL.size() == 0){
-			System.out.println("You must own a potion first and then to use it");
+			System.out.println("You must own a potion first to be able to use it");
 		}else{
-			System.out.println("Here is your potion list. Choose one to use.");
+			System.out.println("This is your potion list. Choose one to use.");
 
 			System.out.println("+-----------------------------------------------------------------------+");
 			System.out.println("    Name     | Price  |  Level  |  Increased_Value | Increased_Attribute ");
@@ -540,7 +540,7 @@ public abstract class Hero extends Role {
 
 			System.out.println("+-----------------------------------------------------------------------+");
 
-			System.out.println("Choose the potion you want using number");
+			System.out.println("Choose the potion you want using the corresponding number");
 			int num = scan.nextInt();
 
 			// deal with the effect of the potion
@@ -563,7 +563,7 @@ public abstract class Hero extends Role {
 				def += potionL.get(num-1).getVal();
 			}
 
-			System.out.println("Successfully use! Your " + potionL.get(num-1).getName() + " potion has come into effect!");
+			System.out.println("Successfully used! Your " + potionL.get(num-1).getName() + " potion has come into effect!");
 			potionL.remove(potionL.get(num-1));
 		}
 	}
@@ -571,7 +571,7 @@ public abstract class Hero extends Role {
 	// heros can cast a spell
 	public void useSpell(Monster mon) {
 		if (spellL.size() == 0) {
-			System.out.println("You must own a spell first and then to use it");
+			System.out.println("You must own a spell first to be able to use it");
 		} else {
 			System.out.println("Here is your spell list. Choose one to use.");
 			System.out.println("+--------------------------------------------------------------+");
@@ -582,10 +582,10 @@ public abstract class Hero extends Role {
 				System.out.println(s);
 			}
 			System.out.println("+---------------------------------------------------------------+");
-			System.out.println("Choose the spell you want using number");
+			System.out.println("Choose the spell you want using the corresponding number");
 			int num = scan.nextInt();
 			if (spellL.get(num-1).getManaCost() > mana){
-				System.out.println("You don't have enough mana to use the spell");
+				System.out.println("You don't have enough mana to use this spell");
 			}else{
 				mana -= spellL.get(num-1).getManaCost();
 
@@ -599,7 +599,7 @@ public abstract class Hero extends Role {
 
 				int eff = (int) (spellL.get(num-1).getDamage()*(1 + dex / 10000));
 				mon.loseHP(eff);
-				System.out.println("Successfully use!!! You have used spell " + spellL.get(num-1).getName() + " to monster " + mon.getName() + " !");
+				System.out.println("Successfully used!!! You have used spell " + spellL.get(num-1).getName() + " on monster " + mon.getName() + " !");
 				spellL.remove(spellL.get(num-1));
 			}
 		}

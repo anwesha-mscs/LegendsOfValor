@@ -4,7 +4,7 @@ public class Dragon extends Monster{
     public Dragon(String na, int lev, int da, int def, double dod) {
         super(na, lev, da, def, dod);
 
-        type = "dargon";
+        type = "dragon";
 
     }
 
@@ -15,7 +15,7 @@ public class Dragon extends Monster{
         Random random = new Random();
         int temp = random.nextInt(10) + 1;
         // monster has a probability to dodge the attack
-        if (temp < (int) (dodge*0.16)){
+        if (temp < (int) (dodge_chance*0.16)){
             System.out.println("Dragon" + name + "has dodged an attack");
             return eff;
         } else{

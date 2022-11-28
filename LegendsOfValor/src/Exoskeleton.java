@@ -15,7 +15,7 @@ public class Exoskeleton extends Monster{
         Random random = new Random();
         int temp = random.nextInt(10) + 1;
         // monster has a probability to dodge the attack
-        if (temp < (int) (dodge*8)){
+        if (temp < (int) (dodge_chance*8)){
             System.out.println("Exoskeleton" + name + "has dodged an attack");
             return eff;
         } else{

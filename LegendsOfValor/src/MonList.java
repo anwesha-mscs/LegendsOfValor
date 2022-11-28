@@ -53,7 +53,7 @@ public class MonList {
 			System.out.printf("%-14s", MonsterList.get(i).getType());
 			System.out.println();
 
-			String.format("%-3s %-20s", MonsterList);
+			//String.format("%-3s %-20s", MonsterList);
 		}
 		System.out.println("+-------------------------------------------------------------------------------+");
 

@@ -84,15 +84,16 @@ public class Market {
 
 	public boolean checkBuyValidity(Hero hero, Item e){
 		if(hero.getMoney() < e.getPrice()){
-			System.out.println("Sorry! Your balance is insufficient.Yours: "+hero.getMoney()+" required: "+e.getPrice());
+			System.out.println("Sorry! Your balance is insufficient.You have: "+hero.getMoney()+" required: "+e.getPrice());
 			return false;
 		}else if(hero.getLevel() < e.getLevel()){
-			System.out.println("Sorry! Your hero's level is too low. Yours: "+hero.getLevel()+" required: "+e.getLevel());
+			System.out.println("Sorry! Your hero's level is too low. You have: "+hero.getLevel()+" required: "+e.getLevel());
 			return false;
 		}else{
 			hero.recItem(e);
 			hero.setMoney(hero.getMoney()-e.getPrice());
-			System.out.println(e.name + " has been brought by" + hero.name + " from market");
+			System.out.println("Congratulations! " +e.name + " has been bought by" + hero.name + " from market");
+
 			remoItem(e);
 			return true;
 		}
@@ -136,9 +137,9 @@ public class Market {
 		ArrayList chosen= switchToWanted(dec,'b');
 
 		if (chosen.isEmpty()) {
-			System.out.println("There is nothing to buy, please try again another type.");
+			System.out.println("There is nothing to buy, please try again for a different type.");
 		}else {
-			int ind = Helper.getIntInput("Choose the item you want to buy using number",chosen.size());
+			int ind = Helper.getIntInput("Choose the item you want to buy by entering the corresponding number",chosen.size());
 
 			if (!checkBuyValidity(hero, (Item) chosen.get(ind-1))) {
 			}
@@ -154,13 +155,13 @@ public class Market {
 		ArrayList chosen= switchToWanted(dec,'s');
 
 		if (chosen.isEmpty()) {
-			System.out.println("There is nothing to sell, please try again another type.");
+			System.out.println("You have nothing to sell yet! You can try some other option or come back with more goods later!");
 		}else {
-			int ind = Helper.getIntInput("Choose the item you want to sell using number",chosen.size());
+			int ind = Helper.getIntInput("Choose the item you want to sell by entering the corresponding number",chosen.size());
 			Item sell = (Item) chosen.get(ind-1);
 			hero.remoItem(sell);
 			hero.setMoney(hero.getMoney()+(sell.getPrice()/2));
-			System.out.println(hero.getName() + "has sold " + sell.getName() + " and has received " + sell.getPrice() / 2 + "coins and now has " + hero.getMoney() + " coins now");
+			System.out.println(hero.getName() + "has sold " + sell.getName() + " and has received " + sell.getPrice() / 2 + "coins and now has " + hero.getMoney() + " coins!");
 			recItem(sell);
 		}
 		enterMaket(hero);
@@ -175,7 +176,7 @@ public class Market {
 
 		switch (dec){
 			case 'l':
-				System.out.println("Good bye, hope you to buy something next time");
+				System.out.println("Good bye! Return to the market soon to explore our collection of exciting goods!");
 				break;
 			case 'b':
 				buy(hero);

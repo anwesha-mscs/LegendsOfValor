@@ -11,7 +11,6 @@ public class Helper {
 
 
     public static int interact(String s){
-//        StackTraceElement traceElement = ((new Exception()).getStackTrace())[0];
         StackTraceElement traceElement[] = ((new Exception()).getStackTrace());
 
         for (StackTraceElement tr :
@@ -38,7 +37,7 @@ public class Helper {
             }
             // input size are not expected
             if (ret < 1 || ret > upper) {
-                System.out.println("Invalid input. Must between 1 and "+upper);
+                System.out.println("Invalid input. Integer must be between 1 and "+upper);
                 continue;
             }
             return ret;

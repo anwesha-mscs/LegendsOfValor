@@ -430,7 +430,7 @@ public class Map extends Grid {
         //alex version of cmd display here
 
 
-        System.out.println("Alex lll here");
+       // System.out.println("Alex lll here");
 
         for (int r = 0; r < size; r++) {
             System.out.println(drawOneBorder(r));
