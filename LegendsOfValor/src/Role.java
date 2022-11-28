@@ -106,7 +106,7 @@ public abstract class Role {
 		y = yLoc;
 		dis = (char) (num+48);
 		laneCurr = laneOri = y/3  +1;
-		System.out.println("Set lane :"+dis+"lane" +laneCurr);
+//		System.out.println("Set lane :"+dis+"lane" +laneCurr);
 
 		return true;
 	}

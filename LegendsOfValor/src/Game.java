@@ -18,6 +18,9 @@ public class Game {
 
 	// hero alive
 	private ArrayList<Hero> heroAlive;
+
+	//monster alive
+	private ArrayList<Monster> monsterAlive;
 	//hero corpses
 	private ArrayList<Hero> heroCorpses;
 
@@ -42,7 +45,7 @@ public class Game {
 //		heroPP = new HeroParty();
 
 		market = new Market();
-		map = new Map(8,setupRoles());
+		map = new Map(8,setupRoles(),heroAlive,monsterAlive);
 //		combat = new Combat(heroPP);
 		scan = new Scanner(System.in);
 		random = new Random();
@@ -67,7 +70,7 @@ public class Game {
 		System.out.println("In the beginning you can choose some heroes to build you team");
 		System.out.println("Good luck and have fun!!!");
 
-		map.grid[7][0].setHasHero(true);
+		map.grid[0][1].setHasHero(true);
 		map.grid[7][3].setHasHero(true);
 		map.grid[7][6].setHasHero(true);
 
@@ -76,7 +79,7 @@ public class Game {
 		map.grid[0][4].setHasMoster(true);
 		map.grid[0][7].setHasMoster(true);
 
-		System.out.print(map);
+//		System.out.print(map);
 
 		heroAlive.get(0).connectMap(map,market);
 
@@ -167,11 +170,12 @@ public class Game {
 	private ArrayList<Role> setupRoles(){
 		roles = new ArrayList<>();
 		heroAlive = new ArrayList<>();
+		monsterAlive = new ArrayList<>();
 		Hero.connectHeroParty(heroAlive,heroCorpses);
 
 
 		Role hero =  heroList.getHeroList().get(2);
-		hero.readyToDisplay(7,0);
+		hero.readyToDisplay(0,1);
 		roles.add(hero);
 		heroAlive.add((Hero) hero);
 		hero =  heroList.getHeroList().get(4);
@@ -193,12 +197,15 @@ public class Game {
 		Role monster = monList.getMonsterList().get(4);
 		monster.readyToDisplay(0,1);
 		roles.add(monster);
+		monsterAlive.add((Monster) monster);
 		monster = monList.getMonsterList().get(16);
 		monster.readyToDisplay(0,4);
 		roles.add(monster);
+		monsterAlive.add((Monster) monster);
 		monster = monList.getMonsterList().get(2);
 		monster.readyToDisplay(0,7);
 		roles.add(monster);
+		monsterAlive.add((Monster) monster);
 
 
 		return roles;

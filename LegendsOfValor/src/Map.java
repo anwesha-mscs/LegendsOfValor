@@ -28,6 +28,10 @@ public class Map extends Grid {
     // Role list which contains of all of the monster and hero
     private ArrayList<Role> roles;
 
+    //hero list
+    private ArrayList<Hero> heroes;
+    private ArrayList<Monster> monsters;
+
 
     //getter and setter below
 //    public int getxCord() {return xCord;}
@@ -38,10 +42,12 @@ public class Map extends Grid {
 
 //    public void setyCord(int yCord) {this.yCord = yCord;}
 
-    public Map(int boardSize, ArrayList<Role> ro) {
+    public Map(int boardSize, ArrayList<Role> ro,ArrayList<Hero> he,ArrayList<Monster> mon) {
         super(boardSize);
         ran = new Random();
         roles = ro;
+        monsters = mon;
+        heroes  = he;
         init();
         FINAL_GRID = cloneGrid(grid);
 
@@ -271,6 +277,81 @@ public class Map extends Grid {
         return charNum;
     }
 
+    public String drawOneBorder(int row){
+        String border="";
+
+        for (int col = 0; col < size; col++) {
+
+            char type=grid[row][col].getType();
+            type = type == ' ' ? 'P' :type;
+            type = type == 'X' ? 'I' :type;
+
+            border += type;
+            border += " - ";
+            border += type;
+            border += " - ";
+            border += type;
+//            border += " - ";
+            border += "  ";
+
+        }
+
+
+        return border;
+    }
+
+    public String fillContent(int row){
+
+        String content="";
+
+
+
+        for (int col = 0; col < size; col++) {
+
+            content+="| ";
+
+
+            if(grid[row][col].getType() == 'X'){
+                content+="X X X";
+                content+=" |  ";
+
+//                return content;
+
+            }else {
+                String buffer="      ";
+
+                for (Hero hero : heroes) {
+                    if(hero.getX() == row && hero.getY() == col){
+                        buffer = buffer.replaceFirst("  ","H"+hero.getDis());
+                    }
+                }
+
+                for (Monster mon : monsters) {
+                    if(mon.getX() == row && mon.getY() == col){
+//                        System.out.println(mon.getDis());
+                        buffer = buffer.replaceFirst("(.{3})  ","$1M"+mon.getDis());
+                    }
+                }
+
+//            buffer
+
+                content+=buffer;
+
+
+
+                content+="|  ";
+
+            }
+
+
+
+        }
+
+
+
+        return content;
+    }
+
 
 
 
@@ -280,86 +361,109 @@ public class Map extends Grid {
     public String
     toString() {
 
-//        System.out.println("The party are now locating at: " + "(" + xCord + "," + yCord + ")" );
         System.out.println("The world of play: ");
 
-
-        //to indicate where the party is using "Pointer"
-//        for (int poin = 0; poin < size; poin++) {
-//            if (yCord == poin){
-//                System.out.print("  | ");
-//                break;
-//            }else {
-//                System.out.print("    ");
 //
-//            }
+//        System.out.println();
 //
+////        for (int poin = 0; poin < size; poin++) {
+////            if (yCord == poin){
+////
+////                System.out.print("  V ");
+////                break;
+////            }else {
+////                System.out.print("    ");
+////
+////            }
+////
+////        }
+////        System.out.println();
+//
+//
+//        for (int i = 0; i < this.size; ++i) {
+//            System.out.print("+---");
 //        }
-        System.out.println();
-
-        for (int poin = 0; poin < size; poin++) {
-            if (yCord == poin){
-
-                System.out.print("  V ");
-                break;
-            }else {
-                System.out.print("    ");
-
-            }
-
-        }
-        System.out.println();
-
-
-        for (int i = 0; i < this.size; ++i) {
-            System.out.print("+---");
-        }
-        System.out.println("+");
-
-
-        //modify here to display all the monster and hero
-        for (int i = 0; i < this.size; ++i) {
-            System.out.print("|");
-            for (int j = 0; j < this.size; ++j){
-//                if(xCord == i && yCord ==j){
-//                    System.out.print(" P |");
-//                }else {
+//        System.out.println("+");
+//
+//
+//        //modify here to display all the monster and hero
+//        for (int i = 0; i < this.size; ++i) {
+//            System.out.print("|");
+//            for (int j = 0; j < this.size; ++j){
+////                if(xCord == i && yCord ==j){
+////                    System.out.print(" P |");
+////                }else {
+////                    System.out.print(" " + this.FINAL_GRID[i][j].getType() + " |");
+////                }
+//
+//                boolean hasDis = false;
+//
+//
+//                //  new code
+//                for (Role role : roles) {
+//                    if(role.getX() == i && role.getY() == j){
+//                        System.out.print(" "+role.getDis()+" |");
+//                        hasDis = true;
+//                    }
+//                }
+//
+//                // -- new code ended
+//
+//                if (!hasDis) {
 //                    System.out.print(" " + this.FINAL_GRID[i][j].getType() + " |");
 //                }
-
-                boolean hasDis = false;
-
-
-                //  new code
-                for (Role role : roles) {
-                    if(role.getX() == i && role.getY() == j){
-                        System.out.print(" "+role.getDis()+" |");
-                        hasDis = true;
-                    }else {
-//                    System.out.print(" " + this.FINAL_GRID[i][j].getType() + " |");
-                    }
-                }
-
-                // -- new code ended
-
-                if (!hasDis) {
-                    System.out.print(" " + this.FINAL_GRID[i][j].getType() + " |");
-                    hasDis =false;
-                }
-
-
-            }
-
-//            if (i == xCord){
-
-//                System.out.print(" <---");
+//
+//
 //            }
+//
+////            if (i == xCord){
+//
+////                System.out.print(" <---");
+////            }
+//            System.out.println();
+//            for (int k = 0; k < this.size; ++k) {
+//                System.out.print("+---");
+//            }
+//            System.out.println("+");
+//        }
+
+        //alex version of cmd display here
+
+
+        System.out.println("Alex lll here");
+
+        for (int r = 0; r < size; r++) {
+            System.out.println(drawOneBorder(r));
+//            System.out.println();
+            System.out.println(fillContent(r));
+            System.out.println(drawOneBorder(r));
             System.out.println();
-            for (int k = 0; k < this.size; ++k) {
-                System.out.print("+---");
-            }
-            System.out.println("+");
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         return "";
     }
 }
