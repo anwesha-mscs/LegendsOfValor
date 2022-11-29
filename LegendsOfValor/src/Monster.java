@@ -22,28 +22,40 @@ public abstract class Monster extends Role {
 
 		System.out.println("It is now time for the monsters to play!");
 		System.out.println(this.getName() +" will play his turn");
-		if(x!=7 && map.grid[x+1][y].isHasHero()){
-			//monster has to battle heroes within its range. This is done in the Game class.
-			return true;
+		System.out.println("Monster x value" +x);
+		System.out.println("Monster y value" +y);
+		//monster has to battle heroes within its range. This is done in the Game class.
+		if(x!=7){
+			if(map.grid[x+1][y].isHasHero()){
+				return true;
+			}
 		}
-		else if(y!=7 && (map.grid[x][y+1].isHasHero())){
-			return true;
+		if(y!=7){
+			if(map.grid[x][y+1].isHasHero()){
+				return true;
+			}
 		}
-		else if(x!=7 && y!=7 && (map.grid[x+1][y+1].isHasHero())){
-			return true;
+		if(x!=7 && y!=7){
+			if(map.grid[x+1][y+1].isHasHero()){
+				return true;
+			}
 		}
-		else if(x!=0 && (map.grid[x-1][y].isHasHero()) ){
-			return true;
+		if(x!=0){
+			if(map.grid[x-1][y].isHasHero()){
+				return true;
+			}
 		}
-		else if(y!=0 && (map.grid[x][y-1].isHasHero())){
-			return true;
+		if(y!=0){
+			if(map.grid[x][y-1].isHasHero()){
+				return true;
+			}
 		}
-		else if(x!=0 && y!=0 && (map.grid[x-1][y-1].isHasHero())){
-			return true;
+		if(x!=0 && y!=0){
+			if(map.grid[x-1][y-1].isHasHero()){
+				return true;
+			}
 		}
-		else{
-			updateLocation();
-		}
+		updateLocation();
 		return false;
 	}
 
