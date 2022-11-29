@@ -4,7 +4,7 @@ import java.lang.Math;
 import java.util.Random;
 
 //abstract class hero to be inheritenced
-public abstract class Hero extends Role {
+public abstract class Hero extends Role implements Cloneable{
 
 	protected int mana;
 
@@ -16,6 +16,7 @@ public abstract class Hero extends Role {
 	//dead heroes
 	protected static ArrayList<Hero> heroCorpse;
 
+	private static ArrayList<Monster> monsterAlive;
 
 	//strength
 	protected int stren;
@@ -223,6 +224,9 @@ public abstract class Hero extends Role {
 
 //		market=
 
+
+
+//		monsterAlive = map.getMonsters();
 		heroCorpse = cor;
 		heroAlive = he;
 		return heroAlive;
@@ -364,6 +368,20 @@ public abstract class Hero extends Role {
 				System.out.println("There is already a hero there! You can not enter it.");
 				return false;
 			}
+			if(monsterAlive==null){
+
+				monsterAlive = map.getMonsters();
+			}
+
+			for (Monster mon : monsterAlive) {
+				if (mon.laneCurr==laneCurr) {
+					if (enterx<mon.x) {
+						System.out.println("You can not go to the back of monster!!!");
+						return false;
+					}
+				}
+			}
+
 
 		} catch (Exception e) {
 //			throw new RuntimeException(e);
@@ -603,6 +621,26 @@ public abstract class Hero extends Role {
 				spellL.remove(spellL.get(num-1));
 			}
 		}
+	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+
+		added++;
+
+		y=added*3-3;
+		x = 6;
+		dis = (char) (added+48);
+		laneCurr = laneOri = y/3  +1;
+
+//		map.grid[x][y].setHasHero(true);
+
+
+		System.out.printf("Clone function activated x: %d y:%d  dis:  %c  added: %d ",x,y,dis,added);
+		System.out.println();
+
+
+		return super.clone();
 	}
 
 	@Override

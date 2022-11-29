@@ -133,6 +133,26 @@ public class Map extends Grid {
 
     }
 
+
+    public ArrayList<Monster> getMonsters() {
+        return monsters;
+    }
+
+    public ArrayList<Role> setHasRoleField(){
+        for (Hero hero : heroes) {
+            grid[hero.x][hero.y].setHasHero(true);
+        }
+
+        for (Monster monster : monsters) {
+            grid[monster.x][monster.y].setHasMoster(true);
+
+        }
+
+
+
+        return roles;
+    }
+
     public MapUnit[][] fillinNexus() {
         for (int i = 0; i < 8; i++) {
             if (i % 3 != 2) {

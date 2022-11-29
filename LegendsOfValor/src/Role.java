@@ -1,11 +1,13 @@
 //all movable object belongs to a role (Monster and hero)
 
-public abstract class Role {
+public abstract class Role implements Cloneable{
 
 	protected String name;
 
 	//current HP
 	protected int hp;
+
+	static protected int added;
 
 	// max hp
 	protected int maxHP;
@@ -35,7 +37,7 @@ public abstract class Role {
 	private static int num = 0;
 
 	// the character to be displayed on the map
-	private char dis;
+	protected char dis;
 
 
 	// to describe whether the role has faint
@@ -107,13 +109,29 @@ public abstract class Role {
 		maxHP = hp = (level*100);
 		def = de;
 		wheFaint = false;
+
+//		y=num*3-3;
+
+//		x = 7;
+//		dis = (char) (num+48);
+
+//		laneCurr = laneOri = y/3  +1;
 	}
 
 	public boolean readyToDisplay(int xLoc,int yLoc){
 		num++;
+
 		x=xLoc;
+
+
 		y = yLoc;
-		dis = (char) (num+48);
+
+//		if(this instanceof Monster)
+//			map.grid[x][y].setHasMoster(true);
+
+//		y=added*3-3;
+//		x = 7;
+		dis = (char) (num+51);
 		laneCurr = laneOri = y/3  +1;
 //		System.out.println("Set lane :"+dis+"lane" +laneCurr);
 
@@ -171,4 +189,8 @@ public abstract class Role {
 		wheFaint = true;
 	}
 
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
 }

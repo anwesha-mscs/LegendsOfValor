@@ -15,13 +15,13 @@ public class HeroParty {
         // display hero list
 
 
-//        while (heroParty.size()<heroNum){
-//            int chosen;
-//            System.out.println(heroList);
-//            chosen = Helper.getIntInput("Which hero do you want to choose?",heroList.getHeroList().size());
-//            heroParty.add(heroList.getHeroList().get(chosen));
-//
-//        }
+    //        while (heroParty.size()<heroNum){
+    //            int chosen;
+    //            System.out.println(heroList);
+    //            chosen = Helper.getIntInput("Which hero do you want to choose?",heroList.getHeroList().size());
+    //            heroParty.add(heroList.getHeroList().get(chosen));
+    //
+    //        }
 
         heroParty.add(heroList.getHeroList().get(8));
 

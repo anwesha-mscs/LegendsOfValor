@@ -22,7 +22,7 @@ public class Game {
 	//monster alive
 	private ArrayList<Monster> monsterAlive = new ArrayList<>();
 	//hero corpses
-	private ArrayList<Hero> heroCorpses = new ArrayList<>();
+	private ArrayList<Hero> heroCorpses;
 	private ArrayList<Battle> battles = new ArrayList<>();
 
 
@@ -43,6 +43,8 @@ public class Game {
 	public Game() {
 		heroList = new HeroList();
 		monList = new MonList();
+		heroList.getHeroList().get(0).connectMap(map,market);
+//		heroPP = new HeroParty();
 
 		market = new Market();
 		map = new Map(8,setupRoles(),heroAlive,monsterAlive);
@@ -70,18 +72,21 @@ public class Game {
 		System.out.println("In the beginning you can choose 3 heroes to build your team");
 		System.out.println("Good luck and above all remember to have fun!!!");
 
-		map.grid[0][1].setHasHero(true);
-		map.grid[7][3].setHasHero(true);
-		map.grid[7][6].setHasHero(true);
+//		map.grid[0][1].setHasHero(true);
+//		map.grid[7][3].setHasHero(true);
+//		map.grid[7][6].setHasHero(true);
 
 
-		map.grid[0][1].setHasMoster(true);
-		map.grid[0][4].setHasMoster(true);
-		map.grid[0][7].setHasMoster(true);
+//		map.grid[0][1].setHasMoster(true);
+//		map.grid[0][4].setHasMoster(true);
+//		map.grid[0][7].setHasMoster(true);
 
 //		System.out.print(map);
 
 		heroAlive.get(0).connectMap(map,market);
+
+		map.setHasRoleField();
+		map.displayMonsterOrHero();
 
 		while (true){
 			oneRoleRound();
@@ -210,42 +215,64 @@ public class Game {
 	private ArrayList<Role> setupRoles(){
 		roles = new ArrayList<>();
 		heroAlive = new ArrayList<>();
+		heroCorpses = new ArrayList<>();
 		monsterAlive = new ArrayList<>();
 		Hero.connectHeroParty(heroAlive,heroCorpses);
 
 
-		Role hero =  heroList.getHeroList().get(2);
-		hero.readyToDisplay(7,1);
-		roles.add(hero);
-		heroAlive.add((Hero) hero);
-		hero =  heroList.getHeroList().get(4);
-		hero.readyToDisplay(7,3);
-		roles.add(hero);
-		heroAlive.add((Hero) hero);
-		hero =  heroList.getHeroList().get(16);
-		hero.readyToDisplay(7,6);
-		roles.add(hero);
-		heroAlive.add((Hero) hero);
+
+        while (heroAlive.size()<3){
+            int chosen;
+            System.out.println(heroList);
+            chosen = Helper.getIntInput("Which hero do you want to choose?",heroList.getHeroList().size());
+
+//			heroAlive.add((Hero) heroList.getHeroList().get(chosen));
+
+			try {
+				heroAlive.add((Hero) heroList.getHeroList().get(chosen).clone());
+			} catch (CloneNotSupportedException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+
+//		Role hero =  heroList.getHeroList().get(2);
+//		hero.readyToDisplay(0,1);
+//		roles.add(hero);
+//		heroAlive.add((Hero) hero);
+//		hero =  heroList.getHeroList().get(4);
+//		hero.readyToDisplay(7,3);
+//		roles.add(hero);
+//		heroAlive.add((Hero) hero);
+//		hero =  heroList.getHeroList().get(16);
+//		hero.readyToDisplay(7,6);
+//		roles.add(hero);
+//		heroAlive.add((Hero) hero);
 
 
 
 //		hero.connectMap(map);
 
 
+		Role monster = null;
+		try {
+			monster = (Role) monList.getMonsterList().get(4).clone();
+			monster.readyToDisplay(5,1);
+			roles.add(monster);
+			monsterAlive.add((Monster) monster);
+			monster = (Role) monList.getMonsterList().get(16).clone();
+			monster.readyToDisplay(5,4);
+			roles.add(monster);
+			monsterAlive.add((Monster) monster);
+			monster = (Role) monList.getMonsterList().get(2).clone();
+			monster.readyToDisplay(5,7);
+			roles.add(monster);
+			monsterAlive.add((Monster) monster);
 
-
-		Role monster = monList.getMonsterList().get(4);
-		monster.readyToDisplay(0,1);
-		roles.add(monster);
-		monsterAlive.add((Monster) monster);
-		monster = monList.getMonsterList().get(16);
-		monster.readyToDisplay(0,4);
-		roles.add(monster);
-		monsterAlive.add((Monster) monster);
-		monster = monList.getMonsterList().get(2);
-		monster.readyToDisplay(0,7);
-		roles.add(monster);
-		monsterAlive.add((Monster) monster);
+		} catch (CloneNotSupportedException e) {
+			throw new RuntimeException(e);
+		}
 
 
 		return roles;
