@@ -399,13 +399,32 @@ public abstract class Hero extends Role implements Cloneable{
 		System.out.println(getDis()+"Before x y:"+x+y);
 		map.grid[x][y].setHasHero(false);
 		map.grid[enterx][entery].setHasHero(true);
+		//if hero leaves a bush then his dexterity is reduced to 100% instead of 110%
+		if(map.grid[x][y].getType() == 'B'){
+			dex = (int)Math.floor(dex/110 * 100);
+		}
+		//if hero leaves a cave then his agility is reduced to 100% instead of 110%
+		else if(map.grid[x][y].getType() == 'C'){
+			agi = (int)Math.floor(agi/110 * 100);
+		}
+		//if hero leaves a koulou then his dexterity is reduced to 100% instead of 110%
+		else if(map.grid[x][y].getType() == 'K'){
+			stren = (int)Math.floor(stren/110 * 100);
+		}
+		if(map.grid[enterx][entery].getType() == 'B'){
+			dex =  (int)Math.ceil(1.1 * dex);
+		}
+		else if(map.grid[enterx][entery].getType() == 'C'){
+			agi =  (int)Math.ceil(1.1 * agi);
+		}
+		else if(map.grid[enterx][entery].getType() == 'C'){
+			stren = (int)Math.ceil(1.1 * stren);
+		}
 
 		x=enterx;
 		y=entery;
 
 		laneCurr = y/3 +1;
-
-
 
 		System.out.println(getDis()+"after x y: "+x+y);
 		return true;
