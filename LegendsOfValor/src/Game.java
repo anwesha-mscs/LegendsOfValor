@@ -217,10 +217,50 @@ public class Game {
 
 		System.out.println("One round end for both hero and monster");
 		roundsPlayed +=1;
-
+		checkWinCondition();
 		return 'H';
 	}
 
+	// if the game has been won or lost!
+	private void checkWinCondition(){
+		char lane1 = ' ';
+		char lane2 = ' ';
+		char lane3 = ' ';
+		for (Monster mon: monsterAlive){
+			if(mon.getHasWon() == true){
+				if(mon.getLaneOri() == 1){
+					lane1 = 'm';
+				}
+				else if(mon.getLaneOri() == 2){
+					lane2 = 'm';
+				}
+				else lane3 = 'm';
+			}
+		}
+		for (Hero h: heroAlive){
+			if(h.getHasWon() == true){
+				if(h.getLaneOri() == 1){
+					lane1 = 'c';
+				}
+				else if(h.getLaneOri() == 2){
+					lane2 = 'c';
+				}
+				else lane3 = 'c';
+			}
+		}
+		if(lane1 == 'm' || lane2 == 'm' || lane3 =='m'){
+			System.out.println("Oh no! The monsters have evaded your territory and captured the World of Play");
+			System.out.println("We wish you better luck next time Brave Warriors! Come back soon and save this world!");
+			System.exit(0);
+		}
+		else if(lane1 == 'c' || lane2 == 'c' || lane3 == 'c'){
+			System.out.println("YOU WIN");
+			System.out.println("Congratulations! The monsters have been defeated! You have brough peace back to the World of Play!");
+			System.out.println("We wish you good luck on your next adventures! Come back soon and visit us! Till then Goodbye!");
+			System.exit(0);
+
+		}
+	}
 	//every 8 rounds new monster should be created
 	private void checkCreateNewMonsters(){
 		if(this.roundsPlayed %8 == 0){
@@ -317,15 +357,15 @@ public class Game {
 		Role monster = null;
 		try {
 			monster = (Role) createNewMonster().clone();
-			monster.readyToDisplay(5,1);
+			monster.readyToDisplay(7,1);
 			roles.add(monster);
 			monsterAlive.add((Monster) monster);
 			monster = (Role) createNewMonster().clone();
-			monster.readyToDisplay(5,4);
+			monster.readyToDisplay(7,4);
 			roles.add(monster);
 			monsterAlive.add((Monster) monster);
 			monster = (Role) createNewMonster().clone();
-			monster.readyToDisplay(5,7);
+			monster.readyToDisplay(7,7);
 			roles.add(monster);
 			monsterAlive.add((Monster) monster);
 

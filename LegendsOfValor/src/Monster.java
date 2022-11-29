@@ -80,6 +80,10 @@ public abstract class Monster extends Role {
 
 
 	private void leaveEnter(int enterX,int enterY){
+		if(enterX == 7){
+			System.out.println("The nexus for lane " +laneOri +" has been occupied by monster " +this.name);
+			setHasWon(true);
+		}
 
 		try {
 			char type= map.grid[enterX][enterY].getType();

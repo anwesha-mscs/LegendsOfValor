@@ -25,6 +25,8 @@ public abstract class Role implements Cloneable{
 	protected int x;
 	protected int y;
 
+	private boolean hasWon = false;
+
 
 	// the lane it belongs to
 	protected int laneOri;
@@ -42,6 +44,13 @@ public abstract class Role implements Cloneable{
 
 	// to describe whether the role has faint
 	protected boolean wheFaint;
+	public boolean getHasWon() {
+		return hasWon;
+	}
+
+	public void setHasWon(boolean hasWon) {
+		this.hasWon = hasWon;
+	}
 
 	public boolean getIsBattle() {
 		return isBattle;

@@ -358,7 +358,10 @@ public abstract class Hero extends Role implements Cloneable{
 
 	// to be complete
 	private boolean leaveEnter(int enterx,int entery){
-
+		if(enterx == 0){
+			System.out.println("The nexus for lane " +laneOri +" has been occupied by hero " +this.name);
+			setHasWon(true);
+		}
 		try {
 			char type= map.grid[enterx][entery].getType();
 			if(type=='X'){
