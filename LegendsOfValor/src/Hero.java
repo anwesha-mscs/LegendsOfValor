@@ -238,7 +238,7 @@ public abstract class Hero extends Role implements Cloneable{
 
 		//check whether in a market
 		if (map.grid[x][y].getType()=='n') {
-			System.out.println(getDis()+" You are now standing in a nexus. You can now buy and sell goods in the market.");
+			System.out.println("Hero " +getDis()+" You are now standing in a nexus. You can now buy and sell goods in the market.");
 			market.enterMaket(this);
 		}
 
@@ -376,7 +376,7 @@ public abstract class Hero extends Role implements Cloneable{
 			for (Monster mon : monsterAlive) {
 				if (mon.laneCurr==laneCurr) {
 					if (enterx<mon.x) {
-						System.out.println("You can not go to the back of monster!!!");
+						System.out.println("You can not go to a location behind an existing monster!!!");
 						return false;
 					}
 				}
@@ -496,9 +496,9 @@ public abstract class Hero extends Role implements Cloneable{
 	// heros can change their weapon
 	public void changeCurrWeapon(){
 		if (weaponL.size() == 0){
-			System.out.println("You must own a weapon first and then wear a weapon");
+			System.out.println("You must own a weapon first to be able to equip a weapon");
 		}else{
-			System.out.println("Here is your weapon list , choose one to equip");
+			System.out.println("Here is your weapon list, choose one to equip");
 
 			System.out.println("+-------------------------------------------------------------------------------+");
 			System.out.println("    Name     | Price  |  Level  |  Damage | Required_Hands");
@@ -512,7 +512,7 @@ public abstract class Hero extends Role implements Cloneable{
 			System.out.println("Choose the weapon you want using it's corresponding number ");
 			int num = scan.nextInt();
 			if(hand < weaponL.get(num-1).getHaNe()){
-				System.out.println("Sorry! You do not seem to have enough free hands to equip it!");
+				System.out.println("Sorry! You do not seem to have enough free hands to equip this weapon!");
 			}else {
 				weap = weaponL.get(num-1);
 				System.out.println("Successfully changed weapon!! Your current weapon is " + weap.getName());

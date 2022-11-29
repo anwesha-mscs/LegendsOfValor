@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 
 //the main control of the game
@@ -24,6 +22,7 @@ public class Game {
 	//hero corpses
 	private ArrayList<Hero> heroCorpses;
 	private ArrayList<Battle> battles = new ArrayList<>();
+	private int roundsPlayed = 0;
 
 
 	//market
@@ -44,7 +43,6 @@ public class Game {
 		heroList = new HeroList();
 		monList = new MonList();
 		heroList.getHeroList().get(0).connectMap(map,market);
-//		heroPP = new HeroParty();
 
 		market = new Market();
 		map = new Map(8,setupRoles(),heroAlive,monsterAlive);
@@ -84,13 +82,11 @@ public class Game {
 //		System.out.print(map);
 
 		heroAlive.get(0).connectMap(map,market);
-
 		map.setHasRoleField();
 		map.displayMonsterOrHero();
 
 		while (true){
 			oneRoleRound();
-
 		}
 
 		// build up the hero team
@@ -101,8 +97,6 @@ public class Game {
 
 		// display the world
 //		map.printWorld();
-
-
 	}
 
 
@@ -136,19 +130,57 @@ public class Game {
 					currMonList.add(mon);
 					//find which is the hero or heroes in the monster's vicinity
 					for (Hero hero : heroAlive) {
-						if (((x-1)==hero.getX() && y== hero.getY())|| ((x+1)==hero.getX() && y== hero.getY()) || (x==hero.getX() && (y-1)== hero.getY()) || (x==hero.getX() && (y+1)== hero.getY()) || ((x-1)==hero.getX() && (y-1)== hero.getY()) || ((x+1)==hero.getX() && (y+1)== hero.getY())) {
-							currHeroList.add(hero);
+						if(x!=0){
+							if ((x-1)==hero.getX() && y== hero.getY()) {
+								currHeroList.add(hero);
+								hero.setIsBattle(true);
+							}
+						}
+						if(x!=7){
+							if((x+1) == hero.getX() && y == hero.getY()){
+								currHeroList.add(hero);
+								hero.setIsBattle(true);
+							}
+						}
+						if(y!=0){
+							if(x== hero.getX() && (y-1) == hero.getY()){
+								currHeroList.add(hero);
+								hero.setIsBattle(true);
+							}
+						}
+						if(y!=7){
+							if(x == hero.getX() && (y+1)== hero.getY()){
+								currHeroList.add(hero);
+								hero.setIsBattle(true);
+							}
+						}
+						if(x!=0 && y!=0){
+							if((x-1)==hero.getX() && (y-1)== hero.getY()){
+								currHeroList.add(hero);
+								hero.setIsBattle(true);
+							}
+						}
+						if(x!=7 && y!=7){
+							if((x+1)==hero.getX() && (y+1)== hero.getY()){
+								currHeroList.add(hero);
+								hero.setIsBattle(true);
+							}
 						}
 						Battle battle = new Battle(currMonList, currHeroList, mon.laneOri);
 						battles.add(battle);
 						this.heroCorpses = battle.fightBattle();
+						this.roundsPlayed += battle.getRoundNum();
 					}
 				}
 				//this means there is already an ongoing battle. then the monster is added to this battle
 				else{
 					ArrayList<Monster> currentMonsters = battleTemp.getMonsterList();
-					currentMonsters.add(mon);
-					battleTemp.setMonsterList(currentMonsters);
+					if(!currentMonsters.contains(mon)){
+						currentMonsters.add(mon);
+						battleTemp.setMonsterList(currentMonsters);
+					}
+				//	this.heroCorpses = battleTemp.fightBattle();
+				//	this.roundsPlayed += battleTemp.getRoundNum();
 				}
 			}
 			updateMonsterHero();
@@ -156,7 +188,15 @@ public class Game {
 			map.displayMonsterOrHero();
 			System.out.println(map);
 		}
-
+		for(Battle battle : battles){
+			ArrayList<Hero> tempHeroCorpses = battle.fightBattle();
+			for(Hero deadHero: tempHeroCorpses){
+				if (!this.heroCorpses.contains(deadHero)){
+					this.heroCorpses.add(deadHero);
+				}
+			}
+			this.roundsPlayed += battle.getRoundNum();
+		}
 
 		//to be complete function:
 
@@ -168,6 +208,7 @@ public class Game {
 		System.out.println();
 
 
+		checkCreateNewMonsters();
 
 //		System.out.println("Alive Heroes should regain hp and mana here");
 		regainHpHero();
@@ -175,17 +216,38 @@ public class Game {
 		respawnHero();
 
 		System.out.println("One round end for both hero and monster");
-
+		roundsPlayed +=1;
 
 		return 'H';
+	}
+
+	//every 8 rounds new monster should be created
+	private void checkCreateNewMonsters(){
+		if(this.roundsPlayed %8 == 0){
+			Monster mon = createNewMonster();
+			monsterAlive.add(mon);
+		}
+	}
+
+	private Monster createNewMonster(){
+		Monster m = null;
+		Collections.shuffle(monList.getMonsterList());
+		int i = 0;
+		boolean flag = false;
+		while(flag == false){
+			if(this.monsterAlive.contains(monList.getMonsterList().get(i))){
+				i += 1;
+			}
+			else flag = true;
+			m = monList.getMonsterList().get(i);
+		}
+		return m;
 	}
 
 	private int regainHpHero(){
 		for (Hero alive : heroAlive) {
 			alive.regainHpMana();
 		}
-
-
 		return 0;
 	}
 
@@ -203,10 +265,7 @@ public class Game {
 	private Map updateMonsterHero(){
 
 		System.out.println("Reset grid");
-
 		System.out.println(map.getFINAL_GRID());
-
-
 
 		return map;
 	}
@@ -257,15 +316,15 @@ public class Game {
 
 		Role monster = null;
 		try {
-			monster = (Role) monList.getMonsterList().get(4).clone();
+			monster = (Role) createNewMonster().clone();
 			monster.readyToDisplay(5,1);
 			roles.add(monster);
 			monsterAlive.add((Monster) monster);
-			monster = (Role) monList.getMonsterList().get(16).clone();
+			monster = (Role) createNewMonster().clone();
 			monster.readyToDisplay(5,4);
 			roles.add(monster);
 			monsterAlive.add((Monster) monster);
-			monster = (Role) monList.getMonsterList().get(2).clone();
+			monster = (Role) createNewMonster().clone();
 			monster.readyToDisplay(5,7);
 			roles.add(monster);
 			monsterAlive.add((Monster) monster);

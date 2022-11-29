@@ -8,10 +8,20 @@ public class Battle {
     private int lane;
     private int monstersDead = 0;
     private int heroDead = 0;
+
+
+
     private int roundNum = 0;
     private int target = 0;
     private int index = 0;
 
+    public int getRoundNum() {
+        return roundNum;
+    }
+
+    public void setRoundNum(int roundNum) {
+        this.roundNum = roundNum;
+    }
     private ArrayList<Hero> deadHeroes = new ArrayList<>();
 
     public ArrayList<Hero> getHeroList() {
@@ -50,8 +60,8 @@ public class Battle {
 
     public ArrayList<Hero> fightBattle() {
         roundNum++;
-        while (!checkAllMonstersDeath() || !checkAllHeroesDeath()) {
-            System.out.println("Beginning round " + roundNum);
+       // while (!checkAllMonstersDeath() || !checkAllHeroesDeath()) {
+            System.out.println("Beginning round " + roundNum + " of battle");
             System.out.println(heroList);
             displayMonster();
             heroAttacks();
@@ -61,9 +71,9 @@ public class Battle {
             monsterAttacks();
             if(checkAllHeroesDeath()){
                 System.out.println("Uh-oh! All heroes in lane " +lane+ " have been defeated!");
-                // todo: regenerate the heroes again at nexus
+                // regenerate the heroes again at nexus
             }
-        }
+       // }
         return deadHeroes;
     }
 
