@@ -137,54 +137,14 @@ public class Game {
 
 					heroMovingCopy.addAll(heroMoving);
 
-//					heroMovingCopy.remove(0);
-
-//					System.out.println("Hero moving copy:"+heroMovingCopy);
-//					System.out.println("Hero moving:"+heroMoving);
-
 					for (Hero hero : heroMoving) {
-						if(x!=0){
-							if ((x-1)==hero.getX() && y== hero.getY()) {
+						if (hero.getLaneCurr() == mon.getLaneCurr() && !hero.getHasWon() && !mon.getHasWon()) {
+							if (hero.getX() + 1 == mon.getX() || hero.getX() - 1 == mon.getX() || hero.getX() == mon.getX()) {
 								currHeroList.add(hero);
 								hero.setIsBattle(true);
 							}
 						}
-						if(x!=7){
-							if((x+1) == hero.getX() && y == hero.getY()){
-								currHeroList.add(hero);
-								hero.setIsBattle(true);
-							}
-						}
-						if(y!=0){
-							if(x== hero.getX() && (y-1) == hero.getY()){
-								currHeroList.add(hero);
-								hero.setIsBattle(true);
-							}
-						}
-						if(y!=7){
-							if(x == hero.getX() && (y+1)== hero.getY()){
-								currHeroList.add(hero);
-								hero.setIsBattle(true);
-							}
-						}
-						if(x!=0 && y!=0){
-							if((x-1)==hero.getX() && (y-1)== hero.getY()){
-								currHeroList.add(hero);
-								hero.setIsBattle(true);
-							}
-						}
-						if(x!=7 && y!=7){
-							if((x+1)==hero.getX() && (y+1)== hero.getY()){
-								currHeroList.add(hero);
-								hero.setIsBattle(true);
-							}
-						}
-
-
-//						this.heroCorpses = battle.fightBattle();
-//						this.roundsPlayed += battle.getRoundNum();
 					}
-
 
 					heroMovingCopy.removeAll(currHeroList);
 					Battle battle = new Battle(currMonList, currHeroList, mon.laneOri);
