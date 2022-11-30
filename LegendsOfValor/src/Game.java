@@ -73,17 +73,6 @@ public class Game {
 		System.out.println("In the beginning you can choose 3 heroes to build your team");
 		System.out.println("Good luck and above all remember to have fun!!!");
 
-//		map.grid[0][1].setHasHero(true);
-//		map.grid[7][3].setHasHero(true);
-//		map.grid[7][6].setHasHero(true);
-
-
-//		map.grid[0][1].setHasMoster(true);
-//		map.grid[0][4].setHasMoster(true);
-//		map.grid[0][7].setHasMoster(true);
-
-//		System.out.print(map);
-
 		heroMoving.get(0).connectMap(map,market,this);
 		map.setHasRoleField();
 		map.displayMonsterOrHero();
@@ -92,14 +81,6 @@ public class Game {
 			oneRoleRound();
 		}
 
-		// build up the hero team
-//		heroPP.init();
-
-		// initialize the whole map
-//		map.worldInit();
-
-		// display the world
-//		map.printWorld();
 	}
 
 
@@ -165,8 +146,6 @@ public class Game {
 					System.out.println("Battle added"+battle+" lane "+mon.laneCurr);
 					battles.add(battle);
 
-					// bad coding change the reference
-//					heroMoving = heroMovingCopy;
 
 					// great coding  clear and maintain the reference
 					heroMoving.clear();
@@ -182,72 +161,28 @@ public class Game {
 						currentMonsters.add(mon);
 						battleTemp.setMonsterList(currentMonsters);
 					}
-				//	this.heroCorpses = battleTemp.fightBattle();
-				//	this.roundsPlayed += battleTemp.getRoundNum();
 				}
 			}
 
 
 			//let hero fight here:
 
-
-
-
-//			for (Battle ba : battles) {
-//				heroCorpses.addAll(ba.fightBattle());
-//				roundsPlayed +=ba.getRoundNum();
-//			}
-
-
-//			updateMonsterHero();
 			System.out.println("Monster or Hero Map: ");
-//			map.displayMonsterOrHero();
-//			System.out.println(map);
+
 		}
-//		for(Battle battle : battles){
-//			ArrayList<Hero> tempHeroCorpses = battle.fightBattle();
-//			for(Hero deadHero: tempHeroCorpses){
-//				if (!this.heroCorpses.contains(deadHero)){
-//					this.heroCorpses.add(deadHero);
-//				}
-//			}
-//			this.roundsPlayed += battle.getRoundNum();
-//		}
-
-		//to be complete function:
-
-		System.out.println("The function below should be complete ~~~~~");
-
-		System.out.println("Monster 4 take turn");
-		System.out.println("Monster 5 take turn");
-		System.out.println("Monster 6 take turn");
-		System.out.println();
-
 		System.out.println(map);
-
-
 
 		checkCreateNewMonsters();
 
 		System.out.println("Battle size:" +battles.size());
-
 		System.out.println("Battle detail:"+ battles);
-
-//		if(battles.size()>0){
-//			battles.get(0).fightBattle();
-//		}
-
 		ArrayList<Battle> iteration = new ArrayList<>();
 
 		iteration.addAll(battles);
-
 		for (Battle ba : iteration) {
 			ba.fightBattle();
 		}
-
-//		System.out.println("Alive Heroes should regain hp and mana here");
 		regainHpHero();
-//		System.out.println("Dead Hero respawn");
 		respawnHero();
 
 		System.out.println("One round end for both hero and monster");
@@ -300,7 +235,7 @@ public class Game {
 	}
 	//every 8 rounds new monster should be created
 	private void checkCreateNewMonsters(){
-		if(this.roundsPlayed %6 == 0){
+		if(this.roundsPlayed %10 == 0){
 			Monster mon = createNewMonster();
 			mon.readyToDisplay(0,1);
 			monsterAlive.add(mon);

@@ -27,8 +27,6 @@ public abstract class Monster extends Role {
 		ArrayList<Hero> heroInLane = new ArrayList<>();
 		System.out.println("It is now time for the monsters to play!");
 		System.out.println(this.getName() +" will play his turn");
-		System.out.println("Monster x value " +x);
-		System.out.println("Monster y value " +y);
 		//monster has to battle heroes within its range. This is done in the Game class.
 		for(Hero hero: heroes){
 			if(hero.getLaneCurr() == this.getLaneCurr()){
@@ -110,8 +108,6 @@ public abstract class Monster extends Role {
 		}
 
 		System.out.println("Leave enter:");
-
-		System.out.println(getDis()+"Before x y: "+x+y);
 		map.grid[x][y].setHasMoster(false);
 		map.grid[enterX][enterY].setHasMoster(true);
 
@@ -119,7 +115,6 @@ public abstract class Monster extends Role {
 		y=enterY;
 
 		laneCurr = y/3 +1;
-		System.out.println(getDis()+"after x y: "+x+y);
 	}
 	//getter and setter method below
 
@@ -146,24 +141,6 @@ public abstract class Monster extends Role {
 
 	// monster get attacked by a hero
 	public int loseHP(int damage){
-//		int eff = 0;
-//		Random random = new Random();
-//		int temp = random.nextInt(10) + 1;
-//		// monster has a probability to dodge the attack
-//		if (temp < (int) (this.dodge_chance*0.08)){
-//			System.out.println("Monster " + name + " has dodged an attack");
-//			return eff;
-//		} else{
-//			hp -= damage;
-//			if(hp <= 0){
-//				becomeFaint();
-//				System.out.println("Monster " + name + " has been killed. Good job!");
-//				System.out.println(g.getMonsterAlive());
-//				g.getMonsterAlive().remove(this);
-//				System.out.println(g.getMonsterAlive());
-//
-//			}
-//		}
 		int eff =0;
 		return eff;
 	}
