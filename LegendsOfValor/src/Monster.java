@@ -11,6 +11,10 @@ public abstract class Monster extends Role {
 	
 	protected String type;
 
+	public Monster(){
+
+	}
+
 	public Monster(String name, int level, int damage, int defence, double dodge_chance)
 	{
 		super(name, level, defence);

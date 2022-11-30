@@ -176,7 +176,7 @@ public class Combat {
 
 		for (Hero he : heroes) {
 			he.setMoney(he.getMoney()+he.getLevel()*100);
-			he.setExperience(he.getExperience() + 64* he.level);
+//			he.setExperience(he.getExperience() + 64* he.level);
 			he.setWheFaint(false);
 			if (he.getHp()<1) {
 				he.setHp((int) ((Math.abs(he.getHp())+200)*32));
@@ -187,9 +187,9 @@ public class Combat {
 			he.setMana((int) ((Math.abs(he.getMana())+200)*1.6));
 			he.setHp(he.getHp()%32768);
 
-			if(he.getExperience() >= (he.getLevel()*10)){
-				he.levelUp();
-			}
+//			if(he.getExperience() >= (he.getLevel()*10)){
+//				he.levelUp();
+//			}
 		}
 
 		return heroes.get(0);

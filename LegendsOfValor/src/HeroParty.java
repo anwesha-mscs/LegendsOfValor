@@ -42,11 +42,11 @@ public class HeroParty {
             System.out.printf("%-16s", h.getName());
             System.out.printf("%-8s", h.getHp());
             System.out.printf("%-8s", h.getLevel());
-            System.out.printf("%-10s", h.getStrength());
-            System.out.printf("%-10s", h.getAgility());
-            System.out.printf("%-11s", h.getDexterity());
+            System.out.printf("%-10s", h.getStren());
+            System.out.printf("%-10s", h.getAgi());
+            System.out.printf("%-11s", h.getDex());
             System.out.printf("%-12s", h.getMoney());
-            System.out.printf("%-10s", h.getExperience());
+            System.out.printf("%-10s", h.getExp());
             System.out.printf("%-10s", h.getType());
             System.out.printf("%-10s", h.getwheFaint());
             System.out.println();
@@ -58,12 +58,12 @@ public class HeroParty {
 //                System.out.println("It has no Armor at all!");
             }
 
-            if (h.getWeapon() != null) {
-                System.out.println("Here is the Weapons it has.");
-                System.out.println(h.getWeapon());
-            } else {
-//                System.out.println("It has no Weapon at all!");
-            }
+//            if (h.getWeapon() != null) {
+//                System.out.println("Here is the Weapons it has.");
+//                System.out.println(h.getWeapon());
+//            } else {
+////                System.out.println("It has no Weapon at all!");
+//            }
         }
 
         System.out.println("+------------------------------------------------------------------------------------------------------------------+");

@@ -91,6 +91,10 @@ public abstract class Hero extends Role implements Cloneable{
 
 	}
 
+    public Hero() {
+
+    }
+
 	//getter and setter Here
 		public int getMana() {return mana;}
 

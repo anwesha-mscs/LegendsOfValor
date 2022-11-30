@@ -50,11 +50,11 @@ public class HeroList {
 		System.out.println("No |        Name       | Strength | Agility | Dexterity | Money | Experience | Type");
 		for (int i = 0; i < hl.size(); i++){
 			System.out.printf("%-3s %-22s",(i+1), hl.get(i).getName());
-			System.out.printf("%-10s", hl.get(i).getStrength());
-			System.out.printf("%-10s", hl.get(i).getAgility());
-			System.out.printf("%-11s", hl.get(i).getDexterity());
+			System.out.printf("%-10s", hl.get(i).getStren());
+			System.out.printf("%-10s", hl.get(i).getAgi());
+			System.out.printf("%-11s", hl.get(i).getDex());
 			System.out.printf("%-12s", hl.get(i).getMoney());
-			System.out.printf("%-10s", hl.get(i).getExperience());
+			System.out.printf("%-10s", hl.get(i).getExp());
 			System.out.printf("%-10s", hl.get(i).getType());
 			System.out.println();
 		}

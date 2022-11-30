@@ -12,9 +12,9 @@ public class Paladin extends Hero{
     public void levelUp() {
         super.levelUp();
 
-        strength = (int) Math.round(strength *1.3);
-        agility = (int) Math.round(agility *1.3);
-        dexterity = (int) Math.round(dexterity *1.1);
+        stren = (int) Math.round(stren *1.3);
+        agi = (int) Math.round(agi *1.3);
+        dex = (int) Math.round(dex *1.1);
 
     }
 }
