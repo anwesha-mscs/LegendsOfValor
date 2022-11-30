@@ -14,8 +14,11 @@ public class Game {
 	// the hero party class which are easier to control
 	private HeroParty heroPP;
 
-	// hero alive
-	private ArrayList<Hero> heroAlive = new ArrayList<>();
+	// hero moving
+	private ArrayList<Hero> heroMoving = new ArrayList<>();
+	//hero fighting
+	private ArrayList<Hero> heroFighting = new ArrayList<>();
+
 
 	//monster alive
 	private ArrayList<Monster> monsterAlive = new ArrayList<>();
@@ -45,7 +48,7 @@ public class Game {
 		heroList.getHeroList().get(0).connectMap(map,market);
 
 		market = new Market();
-		map = new Map(8,setupRoles(),heroAlive,monsterAlive);
+		map = new Map(8,setupRoles(), heroMoving,monsterAlive);
 		scan = new Scanner(System.in);
 		random = new Random();
 	}
@@ -81,7 +84,7 @@ public class Game {
 
 //		System.out.print(map);
 
-		heroAlive.get(0).connectMap(map,market);
+		heroMoving.get(0).connectMap(map,market);
 		map.setHasRoleField();
 		map.displayMonsterOrHero();
 
@@ -102,18 +105,19 @@ public class Game {
 
 	private char oneRoleRound(){
 
-		for (Hero hero : heroAlive) {
+		System.out.println(map);
+		for (Hero hero : heroMoving) {
 			hero.oneTurn();
 
 			updateMonsterHero();
 			System.out.println("Monster or Hero Map: ");
-			map.displayMonsterOrHero();
-			System.out.println(map);
+//			map.displayMonsterOrHero();
 		}
+
 		for(Monster mon : monsterAlive){
 			Battle battleTemp = null;
 			boolean laneBattleFlag = false;
-			boolean shouldDoCombat = mon.oneTurn();
+			boolean shouldDoCombat = mon.oneTurn(heroFighting);
 			if(shouldDoCombat && mon.getIsBattle() == false){
 				for(Battle battleCurr : battles){
 					if(battleCurr.getLane() == mon.laneOri){
@@ -129,7 +133,16 @@ public class Game {
 					ArrayList<Hero> currHeroList = new ArrayList<>();
 					currMonList.add(mon);
 					//find which is the hero or heroes in the monster's vicinity
-					for (Hero hero : heroAlive) {
+					ArrayList<Hero> heroMovingCopy = new ArrayList<>();
+
+					heroMovingCopy.addAll(heroMoving);
+
+//					heroMovingCopy.remove(0);
+
+//					System.out.println("Hero moving copy:"+heroMovingCopy);
+//					System.out.println("Hero moving:"+heroMoving);
+
+					for (Hero hero : heroMoving) {
 						if(x!=0){
 							if ((x-1)==hero.getX() && y== hero.getY()) {
 								currHeroList.add(hero);
@@ -166,11 +179,18 @@ public class Game {
 								hero.setIsBattle(true);
 							}
 						}
-						Battle battle = new Battle(currMonList, currHeroList, mon.laneOri);
-						battles.add(battle);
-						this.heroCorpses = battle.fightBattle();
-						this.roundsPlayed += battle.getRoundNum();
+
+
+//						this.heroCorpses = battle.fightBattle();
+//						this.roundsPlayed += battle.getRoundNum();
 					}
+
+
+					heroMovingCopy.removeAll(currHeroList);
+					Battle battle = new Battle(currMonList, currHeroList, mon.laneOri);
+					System.out.println("Battle added"+battle+" lane "+mon.laneCurr);
+					battles.add(battle);
+					heroMoving = heroMovingCopy;
 				}
 				//this means there is already an ongoing battle. then the monster is added to this battle
 				else{
@@ -183,20 +203,33 @@ public class Game {
 				//	this.roundsPlayed += battleTemp.getRoundNum();
 				}
 			}
+
+
+			//let hero fight here:
+
+
+
+
+//			for (Battle ba : battles) {
+//				heroCorpses.addAll(ba.fightBattle());
+//				roundsPlayed +=ba.getRoundNum();
+//			}
+
+
 			updateMonsterHero();
 			System.out.println("Monster or Hero Map: ");
-			map.displayMonsterOrHero();
-			System.out.println(map);
+//			map.displayMonsterOrHero();
+//			System.out.println(map);
 		}
-		for(Battle battle : battles){
-			ArrayList<Hero> tempHeroCorpses = battle.fightBattle();
-			for(Hero deadHero: tempHeroCorpses){
-				if (!this.heroCorpses.contains(deadHero)){
-					this.heroCorpses.add(deadHero);
-				}
-			}
-			this.roundsPlayed += battle.getRoundNum();
-		}
+//		for(Battle battle : battles){
+//			ArrayList<Hero> tempHeroCorpses = battle.fightBattle();
+//			for(Hero deadHero: tempHeroCorpses){
+//				if (!this.heroCorpses.contains(deadHero)){
+//					this.heroCorpses.add(deadHero);
+//				}
+//			}
+//			this.roundsPlayed += battle.getRoundNum();
+//		}
 
 		//to be complete function:
 
@@ -209,6 +242,18 @@ public class Game {
 
 
 		checkCreateNewMonsters();
+
+		System.out.println("Battle size:" +battles.size());
+
+		System.out.println("Battle detail:"+ battles);
+
+//		if(battles.size()>0){
+//			battles.get(0).fightBattle();
+//		}
+
+		for (Battle ba : battles) {
+			ba.fightBattle();
+		}
 
 //		System.out.println("Alive Heroes should regain hp and mana here");
 		regainHpHero();
@@ -237,7 +282,7 @@ public class Game {
 				else lane3 = 'm';
 			}
 		}
-		for (Hero h: heroAlive){
+		for (Hero h: heroMoving){
 			if(h.getHasWon() == true){
 				if(h.getLaneOri() == 1){
 					lane1 = 'c';
@@ -285,7 +330,7 @@ public class Game {
 	}
 
 	private int regainHpHero(){
-		for (Hero alive : heroAlive) {
+		for (Hero alive : heroMoving) {
 			alive.regainHpMana();
 		}
 		return 0;
@@ -296,7 +341,7 @@ public class Game {
 		for (Hero corps : heroCorpses) {
 			if(			corps.reSpawn()){
 				heroCorpses.remove(corps);
-				heroAlive.add(corps);
+				heroMoving.add(corps);
 				corps.setHp(corps.getMaxHP());
 			}
 		}return 0;
@@ -305,7 +350,7 @@ public class Game {
 	private Map updateMonsterHero(){
 
 		System.out.println("Reset grid");
-		System.out.println(map.getFINAL_GRID());
+//		System.out.println(map.getFINAL_GRID());
 
 		return map;
 	}
@@ -313,22 +358,23 @@ public class Game {
 
 	private ArrayList<Role> setupRoles(){
 		roles = new ArrayList<>();
-		heroAlive = new ArrayList<>();
+		heroMoving = new ArrayList<>();
 		heroCorpses = new ArrayList<>();
 		monsterAlive = new ArrayList<>();
-		Hero.connectHeroParty(heroAlive,heroCorpses);
+		Hero.connectHeroParty(heroMoving,heroCorpses);
 
 
+		int chosen=2;
 
-        while (heroAlive.size()<3){
-            int chosen;
+        while (heroMoving.size()<3){
+			chosen*=2;
             System.out.println(heroList);
-            chosen = Helper.getIntInput("Which hero do you want to choose?",heroList.getHeroList().size());
+//            chosen = Helper.getIntInput("Which hero do you want to choose?",heroList.getHeroList().size());
 
 //			heroAlive.add((Hero) heroList.getHeroList().get(chosen));
 
 			try {
-				heroAlive.add((Hero) heroList.getHeroList().get(chosen).clone());
+				heroMoving.add((Hero) heroList.getHeroList().get(chosen).clone());
 			} catch (CloneNotSupportedException e) {
 				throw new RuntimeException(e);
 			}
@@ -357,15 +403,15 @@ public class Game {
 		Role monster = null;
 		try {
 			monster = (Role) createNewMonster().clone();
-			monster.readyToDisplay(7,1);
+			monster.readyToDisplay(4,1);
 			roles.add(monster);
 			monsterAlive.add((Monster) monster);
 			monster = (Role) createNewMonster().clone();
-			monster.readyToDisplay(7,4);
+			monster.readyToDisplay(4,4);
 			roles.add(monster);
 			monsterAlive.add((Monster) monster);
 			monster = (Role) createNewMonster().clone();
-			monster.readyToDisplay(7,7);
+			monster.readyToDisplay(4,7);
 			roles.add(monster);
 			monsterAlive.add((Monster) monster);
 

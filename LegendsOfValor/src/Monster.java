@@ -37,8 +37,22 @@ public abstract class Monster extends Role {
 				}
 			}
 		}
-
-		updateLocation(heroInLane);
+		if(x!=0){
+			if(map.grid[x-1][y].isHasHero()){
+				return true;
+			}
+		}
+		if(y!=0){
+			if(map.grid[x][y-1].isHasHero()){
+				return true;
+			}
+		}
+		if(x!=0 && y!=0){
+			if(map.grid[x-1][y-1].isHasHero()){
+				return true;
+			}
+		}
+		updateLocation(heroes);
 		return false;
 	}
 

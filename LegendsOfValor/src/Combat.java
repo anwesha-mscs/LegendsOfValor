@@ -162,6 +162,7 @@ public class Combat {
 //				action(i);
 				ind=i;
 				System.out.println("Dear " + heroes.get(ind).getName()+" What do you want to do?");
+				System.out.println();
 				String instr = "press 'a' to attack 'w' to change weapon 'r' to change armor 'p' to use potion 's' to cast a spell";
 
 

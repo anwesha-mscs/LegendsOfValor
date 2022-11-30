@@ -56,6 +56,7 @@ public class Battle {
         this.lane = laneOrientation;
         this.monsterList = monsters;
         this.heroList = heroes;
+        System.out.println("Battle s Herolist added");
     }
 
     public ArrayList<Hero> fightBattle() {
@@ -149,10 +150,12 @@ public class Battle {
                 }
             }
 
+
         for (int i = 0; i < heroList.size(); i++){
             if(!heroList.get(i).getwheFaint()){
                 index=i;
-                System.out.println("Dear " + heroList.get(index).getName()+" What do you want to do?");
+//                System.out.println("Dear " + heroList.get(index).getName()+" What do you want to do?");
+                System.out.println("Dear H" + heroList.get(index).getDis()+" What do you want to do?");
                 String instr = "press 'a' to attack 'w' to change weapon 'r' to change armor 'p' to use potion 's' to cast a spell";
                 char atk = Helper.getCharInput(instr);
                 doAtk(atk);
@@ -165,27 +168,27 @@ public class Battle {
         switch (atk) {
             // hero decided to attack
             case 'a':
-                System.out.println("Hero " + heroList.get(index).getName() + " decided to attack!");
+                System.out.println("Hero H" + heroList.get(index).getDis() + " decided to attack!");
                 heroList.get(index).causeDMG(monsterList.get(target));
                 break;
             // hero decided to change weapon
             case 'w':
-                System.out.println("Hero " + heroList.get(index).getName() + " decided to change weapon!");
+                System.out.println("Hero H" + heroList.get(index).getDis() + " decided to change weapon!");
                 heroList.get(index).changeCurrWeapon();
                 break;
             // hero decided to change armor
             case 'r':
-                System.out.println("Hero " + heroList.get(index).getName() + " decided to change armor!");
+                System.out.println("Hero H" + heroList.get(index).getDis() + " decided to change armor!");
                 heroList.get(index).changeCurrArmor();
                 break;
             // hero decided to use a potion
             case 'p':
-                System.out.println("Hero " + heroList.get(index).getName() + " decided to use a potion!");
+                System.out.println("Hero H" + heroList.get(index).getDis() + " decided to use a potion!");
                 heroList.get(index).usePotion();
                 break;
             // hero decided to cast a spell
             case 's':
-                System.out.println("Hero " + heroList.get(index).getName() + " decided to cast a spell!");
+                System.out.println("Hero H" + heroList.get(index).getDis() + " decided to cast a spell!");
                 heroList.get(index).useSpell(monsterList.get(target));
                 break;
 
@@ -217,6 +220,19 @@ public class Battle {
     }
 
     public ArrayList displayMonster(){
+        System.out.println("Hero Information");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+        System.out.println("No |        Name     | HP | Level  |  Damage  |  Defense | Dodge_Chance | Type | Status");
+        //No |      Name     | HP | Level  |  Damage  |  Defense | Dodge_Chance | Type | Status
+        //1    Andromalius         -20       3         550       450       0.25      spirit    3
+        for (int i = 0; i < heroList.size(); i++){
+            System.out.printf("%-5s",(i+1));
+            System.out.println(heroList.get(i));
+        }
+        System.out.println("+------------------------------------------------------------------------------------------+" );
+
+        System.out.println("/////////////////////");
+
         System.out.println("Monster Information");
         System.out.println("+-------------------------------------------------------------------------------------------+");
         System.out.println("No |        Name     | HP | Level  |  Damage  |  Defense | Dodge_Chance | Type | Status");
@@ -228,5 +244,32 @@ public class Battle {
         }
         System.out.println("+------------------------------------------------------------------------------------------+" );
         return monsterList;
+    }
+
+    @Override
+    public String toString() {
+
+        String r= "Battle between [[";
+
+        for (Hero h : heroList) {
+            r+= "H";
+            r+= h.getDis();
+            r+= " ,";
+        }
+
+        r+="  and   ";
+
+        for (Monster m : monsterList) {
+
+            r+= "M";
+            r+= m.getDis();
+            r+= " ,";
+
+        }
+
+        r+="  ]]";
+
+
+        return r;
     }
 }
