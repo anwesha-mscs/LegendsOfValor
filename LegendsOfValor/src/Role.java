@@ -7,6 +7,9 @@ public abstract class Role implements Cloneable{
 	//current HP
 	protected int hp;
 
+	// try to get connect with game
+	static protected Game g;
+
 	static protected int added;
 
 	// max hp
@@ -138,7 +141,8 @@ public abstract class Role implements Cloneable{
 		return true;
 	}
 
-	public void connectMap(Map m,Market mar){
+	public void connectMap(Map m,Market mar,Game ga){
+		g = ga;
 		map = m;
 		market = mar;
 		System.out.println("after connect map: " +m);

@@ -81,6 +81,8 @@ public abstract class Hero extends Role implements Cloneable{
 		money+=1024;
 		level =1024;
 		stren +=level;
+		stren +=level;
+		stren +=level;
 
 		weap = null;
 		armor = null;
@@ -189,8 +191,11 @@ public abstract class Hero extends Role implements Cloneable{
 			if(hp <= 0){
 				becomeFaint();
 				heroAlive.remove(this);
+				g.getHeroFighting().remove(this);
+				System.out.println(g);
 				heroCorpse.add(this);
 				System.out.println("Oh no !!! Hero " + name + " has been eliminated");
+				System.out.println("Oh no !!! Hero " + name + " has been diminished");
 			}
 		}
 		return eff;
@@ -241,6 +246,9 @@ public abstract class Hero extends Role implements Cloneable{
 			System.out.println("Hero " +getDis()+" You are now standing in a nexus. You can now buy and sell goods in the market.");
 			market.enterMaket(this);
 		}
+		g.getMonsterAlive();
+
+		System.out.println("zz");
 
 
 		System.out.println("Hero " +getDis() +" What do you want to do next?");
@@ -394,9 +402,9 @@ public abstract class Hero extends Role implements Cloneable{
 			return false;
 		}
 
-		System.out.println("Leave enter:");
+//		System.out.println("Leave enter:");
 
-		System.out.println(getDis()+"Before x y:"+x+y);
+//		System.out.println(getDis()+"Before x y:"+x+y);
 		map.grid[x][y].setHasHero(false);
 		map.grid[enterx][entery].setHasHero(true);
 		//if hero leaves a bush then his dexterity is reduced to 100% instead of 110%
@@ -426,7 +434,7 @@ public abstract class Hero extends Role implements Cloneable{
 
 		laneCurr = y/3 +1;
 
-		System.out.println(getDis()+"after x y: "+x+y);
+//		System.out.println(getDis()+"after x y: "+x+y);
 		return true;
 	}
 
@@ -651,7 +659,7 @@ public abstract class Hero extends Role implements Cloneable{
 		added++;
 
 		y=added*3-3;
-		x = 6;
+		x = 7;
 		dis = (char) (added+48);
 		laneCurr = laneOri = y/3  +1;
 
@@ -670,7 +678,7 @@ public abstract class Hero extends Role implements Cloneable{
 
 
 		String concate="";
-		concate+=String.format("%-22s",getName());
+		concate+=String.format("H%-22s",getDis());
 		concate+=String.format("%-10s",getHp());
 		concate+=String.format("%-10s",getLevel());
 		concate+=String.format("%-10s",getMana());

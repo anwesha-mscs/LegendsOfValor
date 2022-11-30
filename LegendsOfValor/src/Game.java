@@ -45,10 +45,10 @@ public class Game {
 	public Game() {
 		heroList = new HeroList();
 		monList = new MonList();
-		heroList.getHeroList().get(0).connectMap(map,market);
+//		heroList.getHeroList().get(0).connectMap(map,market);
 
 		market = new Market();
-		map = new Map(8,setupRoles(), heroMoving,monsterAlive);
+		map = new Map(8,setupRoles(), heroMoving,monsterAlive,this);
 		scan = new Scanner(System.in);
 		random = new Random();
 	}
@@ -84,7 +84,7 @@ public class Game {
 
 //		System.out.print(map);
 
-		heroMoving.get(0).connectMap(map,market);
+		heroMoving.get(0).connectMap(map,market,this);
 		map.setHasRoleField();
 		map.displayMonsterOrHero();
 
@@ -103,14 +103,26 @@ public class Game {
 	}
 
 
+	public ArrayList<Hero> getHeroMoving() {
+		return heroMoving;
+	}
+
+	public ArrayList<Hero> getHeroFighting() {
+		return heroFighting;
+	}
+
+	public ArrayList<Monster> getMonsterAlive() {
+		return monsterAlive;
+	}
+
 	private char oneRoleRound(){
 
 		System.out.println(map);
 		for (Hero hero : heroMoving) {
 			hero.oneTurn();
 
-			updateMonsterHero();
-			System.out.println("Monster or Hero Map: ");
+//			updateMonsterHero();
+//			System.out.println("Monster or Hero Map: ");
 //			map.displayMonsterOrHero();
 		}
 
@@ -135,6 +147,8 @@ public class Game {
 					//find which is the hero or heroes in the monster's vicinity
 					ArrayList<Hero> heroMovingCopy = new ArrayList<>();
 
+
+
 					heroMovingCopy.addAll(heroMoving);
 
 					for (Hero hero : heroMoving) {
@@ -147,10 +161,19 @@ public class Game {
 					}
 
 					heroMovingCopy.removeAll(currHeroList);
-					Battle battle = new Battle(currMonList, currHeroList, mon.laneOri);
+					Battle battle = new Battle(currMonList, currHeroList, mon.laneOri,this);
 					System.out.println("Battle added"+battle+" lane "+mon.laneCurr);
 					battles.add(battle);
-					heroMoving = heroMovingCopy;
+
+					// bad coding change the reference
+//					heroMoving = heroMovingCopy;
+
+					// great coding  clear and maintain the reference
+					heroMoving.clear();
+					heroMoving.addAll(heroMovingCopy);
+					heroFighting.addAll(currHeroList);
+
+					heroMoving.removeAll(currHeroList);
 				}
 				//this means there is already an ongoing battle. then the monster is added to this battle
 				else{
@@ -176,7 +199,7 @@ public class Game {
 //			}
 
 
-			updateMonsterHero();
+//			updateMonsterHero();
 			System.out.println("Monster or Hero Map: ");
 //			map.displayMonsterOrHero();
 //			System.out.println(map);
@@ -200,6 +223,9 @@ public class Game {
 		System.out.println("Monster 6 take turn");
 		System.out.println();
 
+		System.out.println(map);
+
+
 
 		checkCreateNewMonsters();
 
@@ -211,7 +237,11 @@ public class Game {
 //			battles.get(0).fightBattle();
 //		}
 
-		for (Battle ba : battles) {
+		ArrayList<Battle> iteration = new ArrayList<>();
+
+		iteration.addAll(battles);
+
+		for (Battle ba : iteration) {
 			ba.fightBattle();
 		}
 
@@ -254,11 +284,13 @@ public class Game {
 			}
 		}
 		if(lane1 == 'm' || lane2 == 'm' || lane3 =='m'){
+			System.out.println(map);
 			System.out.println("Oh no! The monsters have evaded your territory and captured the World of Play");
 			System.out.println("We wish you better luck next time Brave Warriors! Come back soon and save this world!");
 			System.exit(0);
 		}
 		else if(lane1 == 'c' || lane2 == 'c' || lane3 == 'c'){
+			System.out.println(map);
 			System.out.println("YOU WIN");
 			System.out.println("Congratulations! The monsters have been defeated! You have brough peace back to the World of Play!");
 			System.out.println("We wish you good luck on your next adventures! Come back soon and visit us! Till then Goodbye!");
@@ -268,8 +300,15 @@ public class Game {
 	}
 	//every 8 rounds new monster should be created
 	private void checkCreateNewMonsters(){
-		if(this.roundsPlayed %8 == 0){
+		if(this.roundsPlayed %6 == 0){
 			Monster mon = createNewMonster();
+			mon.readyToDisplay(0,1);
+			monsterAlive.add(mon);
+			mon = createNewMonster();
+			mon.readyToDisplay(0,4);
+			monsterAlive.add(mon);
+			mon = createNewMonster();
+			mon.readyToDisplay(0,7);
 			monsterAlive.add(mon);
 		}
 	}
@@ -286,7 +325,11 @@ public class Game {
 			else flag = true;
 			m = monList.getMonsterList().get(i);
 		}
-		return m;
+		try {
+			return (Monster) m.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private int regainHpHero(){
@@ -296,21 +339,41 @@ public class Game {
 		return 0;
 	}
 
+	public ArrayList<Battle> getBattles() {
+		return battles;
+	}
+
+	public Map getMap() {
+		return map;
+	}
+
 	private int respawnHero(){
+
+		ArrayList<Hero> heroCorpsesBody = new ArrayList<>();
+
+		heroCorpsesBody.addAll(heroCorpses);
 
 		for (Hero corps : heroCorpses) {
 			if(			corps.reSpawn()){
-				heroCorpses.remove(corps);
+				heroCorpsesBody.remove(corps);
 				heroMoving.add(corps);
 				corps.setHp(corps.getMaxHP());
+				corps.setWheFaint(false);
 			}
-		}return 0;
+		}// bad coding change the reference
+//		heroCorpses = heroCorpsesBody;
+
+		//GREAT maintain the reference not changing it.
+		heroCorpses.clear();
+		heroCorpses.addAll(heroCorpsesBody);
+
+		return 0;
 	}
 
 	private Map updateMonsterHero(){
 
 		System.out.println("Reset grid");
-//		System.out.println(map.getFINAL_GRID());
+		System.out.println(map.getFINAL_GRID());
 
 		return map;
 	}
@@ -329,8 +392,8 @@ public class Game {
         while (heroMoving.size()<3){
 			chosen*=2;
             System.out.println(heroList);
-//            chosen = Helper.getIntInput("Which hero do you want to choose?",heroList.getHeroList().size());
-
+            chosen = Helper.getIntInput("Which hero do you want to choose?",heroList.getHeroList().size());
+//
 //			heroAlive.add((Hero) heroList.getHeroList().get(chosen));
 
 			try {
@@ -363,15 +426,15 @@ public class Game {
 		Role monster = null;
 		try {
 			monster = (Role) createNewMonster().clone();
-			monster.readyToDisplay(4,1);
+			monster.readyToDisplay(0,1);
 			roles.add(monster);
 			monsterAlive.add((Monster) monster);
 			monster = (Role) createNewMonster().clone();
-			monster.readyToDisplay(4,4);
+			monster.readyToDisplay(0,4);
 			roles.add(monster);
 			monsterAlive.add((Monster) monster);
 			monster = (Role) createNewMonster().clone();
-			monster.readyToDisplay(4,7);
+			monster.readyToDisplay(0,7);
 			roles.add(monster);
 			monsterAlive.add((Monster) monster);
 

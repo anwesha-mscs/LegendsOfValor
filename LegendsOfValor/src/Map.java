@@ -28,6 +28,8 @@ public class Map extends Grid {
     // Role list which contains of all of the monster and hero
     private ArrayList<Role> roles;
 
+    private Game game;
+
     //hero list
     private ArrayList<Hero> heroes;
     private ArrayList<Monster> monsters;
@@ -42,7 +44,7 @@ public class Map extends Grid {
 
 //    public void setyCord(int yCord) {this.yCord = yCord;}
 
-    public Map(int boardSize, ArrayList<Role> ro,ArrayList<Hero> he,ArrayList<Monster> mon) {
+    public Map(int boardSize, ArrayList<Role> ro,ArrayList<Hero> he,ArrayList<Monster> mon,Game ga) {
         super(boardSize);
         ran = new Random();
         roles = ro;
@@ -50,6 +52,7 @@ public class Map extends Grid {
         heroes  = he;
         init();
         FINAL_GRID = cloneGrid(grid);
+        game = ga;
 
     }
 
@@ -322,6 +325,8 @@ public class Map extends Grid {
 
     public String fillContent(int row){
 
+
+
         String content="";
 
 
@@ -342,9 +347,21 @@ public class Map extends Grid {
 
                 for (Hero hero : heroes) {
                     if(hero.getX() == row && hero.getY() == col){
+//                        System.out.println("Moving Trigger the");
+
                         buffer = buffer.replaceFirst("  ","H"+hero.getDis());
                     }
                 }
+
+
+                for (Hero hero : game.getHeroFighting()) {
+                    if(hero.getX() == row && hero.getY() == col){
+//                        System.out.println("Fighting Trigger the");
+                        buffer = buffer.replaceFirst("  ","H"+hero.getDis());
+                    }
+                }
+
+
 
                 for (Monster mon : monsters) {
                     if(mon.getX() == row && mon.getY() == col){
@@ -458,7 +475,13 @@ public class Map extends Grid {
             System.out.println(fillContent(r));
             System.out.println(drawOneBorder(r));
             System.out.println();
+
+
         }
+
+//        System.out.println();
+//        System.out.println(game.getHeroFighting());
+        System.out.println();
 
 
 

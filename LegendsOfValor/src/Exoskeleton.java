@@ -22,6 +22,8 @@ public class Exoskeleton extends Monster{
             if(hp <= 0){
                 becomeFaint();
                 System.out.println("Exoskeleton " + name + " has been killed. Good job!");
+                g.getMonsterAlive().remove(this);
+
             }
         }
         return eff;

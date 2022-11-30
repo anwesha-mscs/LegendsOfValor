@@ -16,6 +16,7 @@ public abstract class Monster extends Role {
 		super(name, level, defence);
 		this.damage = damage;
 		this.dodge_chance = dodge_chance;
+		this.dodge_chance=0;
 	}
 
 	public boolean oneTurn(ArrayList<Hero> heroes) {
@@ -141,20 +142,25 @@ public abstract class Monster extends Role {
 
 	// monster get attacked by a hero
 	public int loseHP(int damage){
-		int eff = 0;
-		Random random = new Random();
-		int temp = random.nextInt(10) + 1;
-		// monster has a probability to dodge the attack
-		if (temp < (int) (this.dodge_chance*0.08)){
-			System.out.println("Monster " + name + " has dodged an attack");
-			return eff;
-		} else{
-			hp -= damage;
-			if(hp <= 0){
-				becomeFaint();
-				System.out.println("Monster " + name + " has been killed. Good job!");
-			}
-		}
+//		int eff = 0;
+//		Random random = new Random();
+//		int temp = random.nextInt(10) + 1;
+//		// monster has a probability to dodge the attack
+//		if (temp < (int) (this.dodge_chance*0.08)){
+//			System.out.println("Monster " + name + " has dodged an attack");
+//			return eff;
+//		} else{
+//			hp -= damage;
+//			if(hp <= 0){
+//				becomeFaint();
+//				System.out.println("Monster " + name + " has been killed. Good job!");
+//				System.out.println(g.getMonsterAlive());
+//				g.getMonsterAlive().remove(this);
+//				System.out.println(g.getMonsterAlive());
+//
+//			}
+//		}
+		int eff =0;
 		return eff;
 	}
 
@@ -164,7 +170,7 @@ public abstract class Monster extends Role {
 
 		String concatenate= "";
 
-		concatenate+=String.format("%-16s",getName());
+		concatenate+=String.format("M%-16s",getDis());
 		concatenate+=String.format("%-8s",getHp());
 		concatenate+=String.format("%-4s",getLevel());
 		concatenate+=String.format("%-10s", getDmg());

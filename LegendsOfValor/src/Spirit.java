@@ -24,6 +24,8 @@ public class Spirit extends Monster{
             if(hp <= 0){
                 becomeFaint();
                 System.out.println("Spirit " + name + " has been killed. Good job!");
+                g.getMonsterAlive().remove(this);
+
             }
         }
         return eff;

@@ -6,6 +6,8 @@ public class Battle {
     private ArrayList<Monster> monsterList = new ArrayList<>();
     //the lane in which the fight is occurring
     private int lane;
+    // try to connect with game
+    private Game game;
     private int monstersDead = 0;
     private int heroDead = 0;
 
@@ -52,10 +54,11 @@ public class Battle {
 
     }
 
-    public Battle(ArrayList<Monster> monsters, ArrayList<Hero> heroes, int laneOrientation){
+    public Battle(ArrayList<Monster> monsters, ArrayList<Hero> heroes, int laneOrientation,Game g){
         this.lane = laneOrientation;
         this.monsterList = monsters;
         this.heroList = heroes;
+        game =g;
         System.out.println("Battle s Herolist added");
     }
 
@@ -64,14 +67,23 @@ public class Battle {
        // while (!checkAllMonstersDeath() || !checkAllHeroesDeath()) {
             System.out.println("Beginning round " + roundNum + " of battle");
             System.out.println(heroList);
-            displayMonster();
+            displayMonsterAndHero();
             heroAttacks();
             if(checkAllMonstersDeath()){
                 System.out.println("Success! All monsters in lane " +lane+ " have been defeated!");
+//                game.getMonsterAlive().removeAll(monsterList);
+                game.getHeroFighting().removeAll(heroList);
+                game.getHeroMoving().addAll(heroList);
+
+                onDestory();
+
             }
             monsterAttacks();
             if(checkAllHeroesDeath()){
                 System.out.println("Uh-oh! All heroes in lane " +lane+ " have been defeated!");
+
+                onDestory();
+
                 // regenerate the heroes again at nexus
             }
        // }
@@ -91,7 +103,7 @@ public class Battle {
             System.out.println("The Monsters you were fighting in lane " +this.lane  +"has been eliminated! You win this battle! \n Congratulations brave heroes!");
             System.out.println("You earn some money and experience and recover some hp and mana");
 
-            displayMonster();
+            displayMonsterAndHero();
             rewardHero();
 
         }
@@ -120,23 +132,29 @@ public class Battle {
 
     private char monsterAttacks(){
 
-        for (int m = 0; m < monsterList.size(); m++){
-            if (!monsterList.get(m).getwheFaint()) {
-                int monsterTarget = m;
-                // get the attack target
-                if(!heroList.get(monsterTarget).getwheFaint()){
-                    monsterList.get(m).causeDMG(heroList.get(monsterTarget));
-                }else{
-                    for (int j = 0; j < heroList.size(); j++){
-                        if (!heroList.get(j).getwheFaint()) {
-                            monsterTarget = j;
-                            break;
+        try {
+            for (int m = 0; m < monsterList.size(); m++){
+                if (!monsterList.get(m).getwheFaint()) {
+                    int monsterTarget = m;
+                    // get the attack target
+                    if(!heroList.get(0).getwheFaint()){
+                        monsterList.get(m).causeDMG(heroList.get(0));
+                    }else{
+                        for (int j = 0; j < heroList.size(); j++){
+                            if (!heroList.get(j).getwheFaint()) {
+                                monsterTarget = j;
+                                break;
+                            }
                         }
+                        monsterList.get(m).causeDMG(heroList.get(0));
                     }
-                    monsterList.get(m).causeDMG(heroList.get(monsterTarget));
                 }
             }
+        }catch (IndexOutOfBoundsException e){
+            int a =1;
         }
+
+
 
         return 'm';
     }
@@ -155,12 +173,24 @@ public class Battle {
             if(!heroList.get(i).getwheFaint()){
                 index=i;
 //                System.out.println("Dear " + heroList.get(index).getName()+" What do you want to do?");
+//                displayMonsterAndHero();
                 System.out.println("Dear H" + heroList.get(index).getDis()+" What do you want to do?");
                 String instr = "press 'a' to attack 'w' to change weapon 'r' to change armor 'p' to use potion 's' to cast a spell";
                 char atk = Helper.getCharInput(instr);
                 doAtk(atk);
+                displayMonsterAndHero();
+//                System.out.printf("H%c -------------> has finished his attack  AAAAAAAAAAAATTTTTTTTTTTTKKKKKKKKKKK  \n",heroList.get(i).getDis());
+//                System.out.println();
+//                System.out.println();
+//                System.out.println();
+                System.out.println();
             }
         }return 'g';
+    }
+
+    public ArrayList<Battle> onDestory() {
+        game.getBattles().remove(this);
+        return game.getBattles();
     }
 
     private char doAtk(char atk){
@@ -219,7 +249,7 @@ public class Battle {
         return heroList.get(0);
     }
 
-    public ArrayList displayMonster(){
+    public ArrayList displayMonsterAndHero(){
         System.out.println("Hero Information");
         System.out.println("+-------------------------------------------------------------------------------------------+");
         System.out.println("No |        Name     | HP | Level  |  Damage  |  Defense | Dodge_Chance | Type | Status");
