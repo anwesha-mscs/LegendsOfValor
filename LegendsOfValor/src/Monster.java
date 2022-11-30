@@ -18,64 +18,45 @@ public abstract class Monster extends Role {
 		this.dodge_chance = dodge_chance;
 	}
 
-	public boolean oneTurn() {
-
+	public boolean oneTurn(ArrayList<Hero> heroes) {
+		ArrayList<Hero> heroInLane = new ArrayList<>();
 		System.out.println("It is now time for the monsters to play!");
 		System.out.println(this.getName() +" will play his turn");
-		System.out.println("Monster x value" +x);
-		System.out.println("Monster y value" +y);
+		System.out.println("Monster x value " +x);
+		System.out.println("Monster y value " +y);
 		//monster has to battle heroes within its range. This is done in the Game class.
-		if(x!=7){
-			if(map.grid[x+1][y].isHasHero()){
-				return true;
+		for(Hero hero: heroes){
+			if(hero.getLaneCurr() == this.getLaneCurr()){
+				heroInLane.add(hero);
+				//check if hero has already won
+				if(hero.getX()!=0){
+					//else check if the hero in the same lane is either above below or beside the monster
+					if(hero.getX()-1 == this.getX() || hero.getX()+1 == this.getX() || hero.getX() == this.getX()){
+						return true;
+					}
+				}
 			}
 		}
-		if(y!=7){
-			if(map.grid[x][y+1].isHasHero()){
-				return true;
-			}
-		}
-		if(x!=7 && y!=7){
-			if(map.grid[x+1][y+1].isHasHero()){
-				return true;
-			}
-		}
-		if(x!=0){
-			if(map.grid[x-1][y].isHasHero()){
-				return true;
-			}
-		}
-		if(y!=0){
-			if(map.grid[x][y-1].isHasHero()){
-				return true;
-			}
-		}
-		if(x!=0 && y!=0){
-			if(map.grid[x-1][y-1].isHasHero()){
-				return true;
-			}
-		}
-		updateLocation();
+
+		updateLocation(heroInLane);
 		return false;
 	}
 
-	private void updateLocation() {
-		Random random = new Random();
-		int choice = random.nextInt(3);
+	private void updateLocation(ArrayList<Hero> heroes) {
 		if(x!=7 && map.grid[x+1][y].isHasMoster()){
-			if(y!=7 && !map.grid[x][y+1].isHasMoster()){
-				leaveEnter(x,y+1);
-			}
-			else if(y!=0 && !map.grid[x][y-1].isHasMoster()){
-				leaveEnter(x, y-1);
-			}
-			else{
-				System.out.println("Monster" +this.name +" is currently stuck!");
+			System.out.println("Monster" +this.name +" is currently stuck!");
+			return;
+		}
+		//this heroes list is only the heroes which are in same lane as monster
+		for(Hero hero: heroes){
+			//the monster cannot overtake the hero without killing him
+			//ideally the code should not reach here - it should return from the previous function itself
+			if(!this.getHasWon() && hero.getX() == x+1){
+				System.out.println("Hero is in same lane as monster. Monster will have to defeat hero to proceed further");
 				return;
 			}
 		}
 		leaveEnter(x+1,y);
-
 	}
 
 
