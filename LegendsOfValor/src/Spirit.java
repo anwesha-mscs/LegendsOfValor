@@ -1,8 +1,9 @@
 import java.util.Random;
 
 public class Spirit extends Monster{
-    public Spirit(String na, int lev, int da, int def, double dod) {
-        super(na, lev, da, def, dod);
+    public Spirit(){}
+    public Spirit(String name, int level, int damage, int defence, double dodge_chance) {
+        super(name, level, damage, defence, dodge_chance);
 
         type = "spirit";
 

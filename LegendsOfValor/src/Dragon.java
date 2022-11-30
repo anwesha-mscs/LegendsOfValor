@@ -1,13 +1,11 @@
 import java.util.Random;
 
 public class Dragon extends Monster{
-    public Dragon(String na, int lev, int da, int def, double dod) {
-        super(na, lev, da, def, dod);
-
+    public Dragon(){}
+    public Dragon(String name, int level, int base_damage, int defence, double dodge_chance) {
+        super(name, level, base_damage, defence, dodge_chance);
         type = "dragon";
-
     }
-
 
 @Override
     public int loseHP(int damage){

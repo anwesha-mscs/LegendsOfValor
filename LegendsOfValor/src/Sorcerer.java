@@ -10,8 +10,8 @@ public class Sorcerer extends Hero{
     @Override
     public void levelUp() {
         super.levelUp();
-        stren = (int) Math.round(stren *1.1);
-        agi = (int) Math.round(agi *1.3);
-        dex = (int) Math.round(dex *1.3);
+        strength = (int) Math.round(strength *1.1);
+        agility = (int) Math.round(agility *1.3);
+        dexterity = (int) Math.round(dexterity *1.3);
     }
 }

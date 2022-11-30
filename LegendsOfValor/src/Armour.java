@@ -1,13 +1,14 @@
 // armour which can helps to defend and reduce damage
 public class Armour extends Item {
+    public Armour(){}
 
     //the reduction coefficient
     private int reductionRate;
 
     // constructor
-    public Armour(String na, int pri, int reqL, int red){
-        super(na, pri, reqL);
-        reductionRate = red;
+    public Armour(String name, int price, int reqLevel, int damage_reduction){
+        super(name, price, reqLevel);
+        reductionRate = damage_reduction;
     }
 
     // get the reduction value

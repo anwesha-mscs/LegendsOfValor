@@ -10,10 +10,11 @@ public abstract class Spell extends Item {
     private int manaCost;
 
     // constructor
-    public Spell(String na, int pri, int reqL, int dmg, int m){
-        super(na, pri, reqL);
-        damage = dmg;
-        manaCost = m;
+    public Spell(){}
+    public Spell(String name, int pri, int reqLevel, int damage, int mana){
+        super(name, pri, reqLevel);
+        damage = damage;
+        manaCost = mana;
     }
 
     //getter and setter below

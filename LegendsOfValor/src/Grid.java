@@ -13,6 +13,7 @@ public abstract class Grid {
 
 
     // constructor
+    public Grid(){}
     public Grid(int s){
         size = s;
         boardInit(s);

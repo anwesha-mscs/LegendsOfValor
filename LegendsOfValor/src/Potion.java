@@ -7,6 +7,7 @@ public class Potion extends Item {
     private int val;
 
     // constructor
+    public Potion(){}
     public Potion(String na, int pri, int reqL, int v, String at){
         super(na, pri, reqL);
         attr = at;

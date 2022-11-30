@@ -1,5 +1,7 @@
 public class LightingSpell extends Spell{
 
+    public LightingSpell(){}
+
     public LightingSpell(String na, int pri, int reqL, int dmg, int m){
         super(na, pri, reqL,dmg,m);
         type = "lighting";

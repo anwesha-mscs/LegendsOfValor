@@ -4,10 +4,11 @@ public abstract class Item {
 
 	protected String name;
 
-	// the level needed to use such item
+	// the level needed to use this item
 	protected int reqLevel;
 
 	protected int price;
+	public Item(){}
 
 	// constructor
 	public Item(String na, int pri, int reqL){

@@ -1,11 +1,10 @@
 import java.util.Random;
 
 public class Exoskeleton extends Monster{
-    public Exoskeleton(String na, int lev, int da, int def, double dod) {
-        super(na, lev, da, def, dod);
-
+    public Exoskeleton(){}
+    public Exoskeleton(String name, int level, int base_damage, int defence, double dodge_chance) {
+        super(name, level, base_damage, defence, dodge_chance);
         type = "exoskeleton";
-
     }
 
 

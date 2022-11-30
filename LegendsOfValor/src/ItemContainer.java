@@ -14,7 +14,7 @@ public class ItemContainer implements ItemProcessor{
 
     protected Item pass;
 
-
+    public ItemContainer(){}
     public ItemContainer(ArrayList<Armour> armorL, ArrayList<Weapon> weaponL, ArrayList<Potion> potionL, ArrayList<Spell> spellL) {
         this.armorL = armorL;
         this.weaponL = weaponL;

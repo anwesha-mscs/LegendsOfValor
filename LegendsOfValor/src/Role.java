@@ -114,6 +114,8 @@ public abstract class Role implements Cloneable{
 		return maxHP;
 	}
 
+	public Role(){}
+
 	public Role(String na, int le, int de)
 	{
 //		num ++;

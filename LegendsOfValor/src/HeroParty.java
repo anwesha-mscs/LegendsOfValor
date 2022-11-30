@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-// the heroes which has been selected by the player
+// the heroes which have been selected by the player
 public class HeroParty {
 
     //hero party
@@ -9,19 +9,6 @@ public class HeroParty {
         HeroList heroList = new HeroList();
 
         int heroNum = 1;
-//        int heroNum = Helper.getIntInput("How many heroes do you want to choose?",3);
-
-//        System.out.println("Please select " + heroNum + " heroes to build your team!");
-        // display hero list
-
-
-    //        while (heroParty.size()<heroNum){
-    //            int chosen;
-    //            System.out.println(heroList);
-    //            chosen = Helper.getIntInput("Which hero do you want to choose?",heroList.getHeroList().size());
-    //            heroParty.add(heroList.getHeroList().get(chosen));
-    //
-    //        }
 
         heroParty.add(heroList.getHeroList().get(8));
 
@@ -55,11 +42,11 @@ public class HeroParty {
             System.out.printf("%-16s", h.getName());
             System.out.printf("%-8s", h.getHp());
             System.out.printf("%-8s", h.getLevel());
-            System.out.printf("%-10s", h.getStren());
-            System.out.printf("%-10s", h.getAgi());
-            System.out.printf("%-11s", h.getDex());
+            System.out.printf("%-10s", h.getStrength());
+            System.out.printf("%-10s", h.getAgility());
+            System.out.printf("%-11s", h.getDexterity());
             System.out.printf("%-12s", h.getMoney());
-            System.out.printf("%-10s", h.getExp());
+            System.out.printf("%-10s", h.getExperience());
             System.out.printf("%-10s", h.getType());
             System.out.printf("%-10s", h.getwheFaint());
             System.out.println();
@@ -71,9 +58,9 @@ public class HeroParty {
 //                System.out.println("It has no Armor at all!");
             }
 
-            if (h.getWeap() != null) {
+            if (h.getWeapon() != null) {
                 System.out.println("Here is the Weapons it has.");
-                System.out.println(h.getWeap());
+                System.out.println(h.getWeapon());
             } else {
 //                System.out.println("It has no Weapon at all!");
             }

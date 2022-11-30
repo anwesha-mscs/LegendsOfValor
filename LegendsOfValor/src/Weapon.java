@@ -8,6 +8,7 @@ public class Weapon extends Item {
     private int haNe;
 
     // constructor
+    public Weapon(){}
     public Weapon(String na, int pri, int reqL, int dmg, int hn){
         super(na, pri, reqL);
         damage = dmg;

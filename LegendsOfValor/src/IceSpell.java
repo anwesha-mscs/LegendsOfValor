@@ -1,7 +1,9 @@
 public class IceSpell extends Spell{
 
-    public IceSpell(String na, int pri, int reqL, int dmg, int m){
-        super(na, pri, reqL,dmg,m);
+    public IceSpell(){}
+
+    public IceSpell(String name, int pri, int reqLevel, int damage, int mana){
+        super(name, pri, reqLevel,damage,mana);
         type = "ice";
     }
 
