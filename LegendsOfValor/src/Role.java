@@ -27,7 +27,6 @@ public abstract class Role implements Cloneable{
 
 	private boolean hasWon = false;
 
-
 	// the lane it belongs to
 	protected int laneOri;
 
@@ -83,6 +82,13 @@ public abstract class Role implements Cloneable{
 	public void setLaneOri(int laneOri) {
 		this.laneOri = laneOri;
 	}
+	public int getLaneCurr() {
+		return laneCurr;
+	}
+
+	public void setLaneCurr(int laneCurr) {
+		this.laneCurr = laneCurr;
+	}
 
 	public static int getNum() {
 		return num;
@@ -118,31 +124,14 @@ public abstract class Role implements Cloneable{
 		maxHP = hp = (level*100);
 		def = de;
 		wheFaint = false;
-
-//		y=num*3-3;
-
-//		x = 7;
-//		dis = (char) (num+48);
-
-//		laneCurr = laneOri = y/3  +1;
 	}
 
 	public boolean readyToDisplay(int xLoc,int yLoc){
 		num++;
-
 		x=xLoc;
-
-
 		y = yLoc;
-
-//		if(this instanceof Monster)
-//			map.grid[x][y].setHasMoster(true);
-
-//		y=added*3-3;
-//		x = 7;
 		dis = (char) (num+51);
 		laneCurr = laneOri = y/3  +1;
-//		System.out.println("Set lane :"+dis+"lane" +laneCurr);
 
 		return true;
 	}
